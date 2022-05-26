@@ -1,0 +1,6 @@
+.Rbuildignore
+data-raw/
+.Rprofile
+.Rhistory
+rsconnect/
+.Rproj.user

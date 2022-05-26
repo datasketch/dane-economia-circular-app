@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap');
+
+.shinybusy, .shinybusy-ready {
+ top: 30% !important;
+ right: 50% !important;
+}
+
+.top-malibu, .top-chardonnay {
+ border-top: 1.5px solid #0dcfb4;
+}
+
+.text-malibu, .text-chardonnay {
+    color: #29366d;
+}
+
+.btn-default {
+font-family: IBM Plex Sans;
+ background: #ffffff !important;
+ background: #ffffff !important;
+ border: 2px solid #009a9c;
+ color: #435b69;
+ float: left;
+ font-size: 0.82rem;
+ font-weight: 400;
+ text-transform: initial;
+ letter-spacing: 0;
+ margin-bottom: 3px;
+}
+
+.basic_active {
+  color: #ffffff !important;
+  background-color: #009a9c !important;
+  border-color: #009a9c !important;
+}
+
+
+.needed {
+ margin-bottom: 9px;
+ max-width: 95%;
+ text-align: left;
+ white-space: normal;
+ word-wrap: break-word;
+}
+
+#ss-connect-dialog a::before {
+background: #009a9c !important;
+}
+
+
+.title-data-select {
+    color: #009a9c !important;
+}
+
+.dropdown-action-trigger {
+  background-color: #009a9c !important;
+}
+
+.buttons-group .button-style.active-btn {
+  filter: brightness(0.5);
+  background-color: #009a9c !important;
+  background: #009a9c !important;
+  color: #009a9c !important;
+}
+
+
+.buttons-group .button-style.active-btn:hover {
+  background-color: #009a9c !important;
+  background: #009a9c !important;
+  color: #009a9c !important;
+}
+
+.button-checkmark {
+ display: none;
+}
+
+.irs-bar {
+    border-top: 1px solid #009a9c !important;
+    border-bottom: 1px solid #009a9c !important;
+    background: #009a9c!important;
+}
+
+.irs-from, .irs-to, .irs-single {
+    color: #009a9c !important;
+}
+
+.style_section {
+    color: #29366d !important;
+} 
+

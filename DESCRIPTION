@@ -1,0 +1,27 @@
+Package: daneApp
+Title: Dane App
+Version: 0.0.0.9000
+Authors@R: person('datasketch', ' ', email = 'datasketch@gmail.co', role = c('cre', 'aut'))
+Description: App to explore plots
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
+Imports: 
+    dsmodules (>= 0.5.6),
+    DT,
+    golem,
+    hgchmagic (>= 1.0.0),
+    lfltmagic (>= 0.1.0),
+    parmesan (>= 0.6.1),
+    shinybusy,
+    shinydisconnect,
+    shinyinvoer (>= 0.1.0),
+    shinypanels (>= 0.5.1)
+Remotes: 
+    datasketch/parmesan,
+    datasketch/shinyinvoer,
+    datasketch/shinypanels,
+    datasketch/dsmodules,
+    datasketch/hgchmagic
