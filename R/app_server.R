@@ -3,6 +3,7 @@
 #' @param input,output,session Internal parameters for {shiny}. 
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @importFrom dplyr %>% 
 #' @noRd
 app_server <- function( input, output, session ) {
   
@@ -15,7 +16,7 @@ app_server <- function( input, output, session ) {
   
   quest_choose <- reactive({
     last_btn <- input$last_click
-    if (is.null(last_btn)) last_btn <- " "
+    if (is.null(last_btn)) last_btn <- "extraccion"
     last_btn
   })
   

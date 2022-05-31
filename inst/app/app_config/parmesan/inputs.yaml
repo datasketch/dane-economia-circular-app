@@ -1,1 +1,13 @@
 ---
+varViewId:
+  show: true
+  input_type: selectizeInput
+  input_params:
+    label: Selección de información de interes
+    choices: var_opts()
+selViewId:
+  show: true
+  input_type: radioButtons
+  input_params:
+    label: Selección de variable
+    choices: selec_opts()

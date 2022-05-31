@@ -25,3 +25,6 @@ Remotes:
     datasketch/shinypanels,
     datasketch/dsmodules,
     datasketch/hgchmagic
+Depends: 
+    R (>= 2.10)
+LazyData: true

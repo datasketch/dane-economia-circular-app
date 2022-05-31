@@ -10,7 +10,7 @@
 mod_questions_buttons_ui <- function(id){
   ns <- NS(id)
   tagList(
-    
+    uiOutput(ns("generalFilters"))
   )
 }
 
@@ -21,6 +21,16 @@ mod_questions_buttons_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    
+    output$generalFilters <- renderUI({
+      question_buttons(c("extraccion", "consumo", "produccion", "cierre"), 
+                       c("Extracción de reservas mineras",
+                         "Consumo y uso", 
+                         "Producción de bienes y servicios",
+                         "Cierre y optimización en ciclos de vida de los materiales y productos")
+      )
+    })
+    
  
   })
 }
