@@ -21,7 +21,31 @@ mod_selected_data_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-  
+    data_select <- reactive({
+      req(r$quest_choose)
+      req(r$varViewId)
+      #print(r$varViewId)
+      df <- NULL
+      if (r$quest_choose == "extraccion") {
+        return()
+      } else if (r$quest_choose == "consumo") {
+      df <- dataConsumo[[r$varViewId]]
+      } else if (r$quest_choose == "produccion") {
+        return()
+      } else if (r$quest_choose == "cierre") {
+      df <- dataCierre[[r$varViewId]]
+      } else {
+        return()
+      }
+      df
+    })
+    
+    
+    observe({
+      r$d_sel <- data_select()
+    })
+    
+
     
   })
 }

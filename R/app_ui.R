@@ -18,21 +18,26 @@ app_ui <- function(request) {
                                mod_questions_buttons_ui("questions_buttons_ui_1")
                            ),
                            mod_load_parmesan_ui("load_parmesan_ui_1")
+                         ),
+                         footer =  div(style = "display:flex;gap:10px",
+                           tags$a(
+                           href="https://www.datasketch.co", target="blank",
+                           img(src= 'www/img/logo-ds.png', align = "left", width = 150, height = 110)),
+                           img(src= 'www/img/logo-dane.png', align = "left", width = 120, height = 80)
                          )
       ),
       shinypanels::panel(title = "VISUALIZACIÓN",
                          id = "naranja",
-                         header_right = mod_download_viz_ui("download_viz_ui_1"),
+                         header_right = div(style = "display:flex;gap:10px;",
+                           div(style = "display:flex;",
+                             mod_viz_selection_ui("viz_selection_ui_1")),
+                           div(mod_download_viz_ui("download_viz_ui_1"))
+                         ),
                          can_collapse = FALSE,
                          color = "chardonnay",
                          body = div(shinybusy::add_busy_spinner(spin = "fading-circle"),
                                     mod_load_viz_ui("load_viz_ui_1")
-                         ),
-                         footer =  div(class = "panel-header",
-                                       mod_viz_selection_ui("viz_selection_ui_1"), 
-                                       tags$a(
-                                         href="https://www.datasketch.co", target="blank",
-                                         img(src= 'www/img/ds_logo.png', align = "right", width = 150, height = 110)))
+                         )
       )
     )
   )
@@ -52,7 +57,7 @@ golem_add_external_resources <- function(){
   addResourcePath(
     'www', system.file('app/www', package = 'daneApp')
   )
-
+  
   addResourcePath(
     'viz_icons', app_sys('app/viz_icons')
   )
@@ -64,7 +69,7 @@ golem_add_external_resources <- function(){
       path = app_sys('app/www'),
       app_title = 'daneApp'
     ),
-   # tags$link(rel="stylesheet", type="text/css", href="www/custom.css"),
+    # tags$link(rel="stylesheet", type="text/css", href="www/custom.css"),
     
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert() 

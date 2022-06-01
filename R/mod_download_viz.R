@@ -10,7 +10,7 @@
 mod_download_viz_ui <- function(id){
   ns <- NS(id)
   tagList(
-  
+    uiOutput(ns("descargas"))
   )
 }
     
@@ -21,7 +21,20 @@ mod_download_viz_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-   
+    output$descargas <- renderUI({
+      
+      if (is.null(r$active_viz)) return()
+      if (r$active_viz != "table") {
+        dsmodules::downloadImageUI(ns("download_viz"), dropdownLabel ="Descargar", text = "Descargar", formats = c("jpeg", "pdf", "png", "html"), display = "dropdown")
+      } else {
+        dsmodules::downloadTableUI(ns("dropdown_table"), dropdownLabel = "Descargar", text = "Descargar", formats = c("csv", "xlsx", "json"), display = "dropdown")
+      }
+    })
+    
+    observe({
+      dsmodules::downloadTableServer("dropdown_table", element = reactive(r$d_sel), formats = c("csv", "xlsx", "json"))
+      dsmodules::downloadImageServer("download_viz", element = reactive(r$downViz), lib = "highcharter", formats = c("jpeg", "pdf", "png", "html"), file_prefix = "plot")
+    })
     
   })
 }

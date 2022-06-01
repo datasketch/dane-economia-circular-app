@@ -10,7 +10,7 @@
 mod_viz_selection_ui <- function(id){
   ns <- NS(id)
   tagList(
-
+    uiOutput(ns("viz_icons"))
   )
 }
 
@@ -21,7 +21,63 @@ mod_viz_selection_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-   
+    possible_viz <- reactive({
+      
+      
+      req(r$d_fil)
+      df <- r$d_fil
+      
+      viz <- c("bar", "treemap")
+      if (any(grepl("Año", names(df)))) {
+        if(length(unique(df$Año)) > 1) viz <- c(viz, "line")
+      }
+      if (length(names(df)) == 2) {
+        if (any(grepl("Departamento", names(df)))) {
+          viz <- c(viz, "map")
+        }}
+      #print(viz)
+      c(viz, "table") 
+      
+    })
+    
+    
+    actual_but <- reactiveValues(active = NULL)
+    
+    observe({
+      if (is.null(input$viz_selection)) return()
+      viz_rec <- possible_viz()
+      if (input$viz_selection %in% viz_rec) {
+        actual_but$active <- input$viz_selection
+      } else {
+        actual_but$active <- viz_rec[1]
+      }
+    })
+    
+    
+    # print viz
+    output$viz_icons <- renderUI({
+      possible_viz <- possible_viz()
+      #print(app_sys("app/www/viz_icons/"))
+      suppressWarnings(
+        shinyinvoer::buttonImageInput(ns('viz_selection'),
+                                      " ",#div(class="title-data-select", "Selecciona tipo de visualización"),
+                                      images = possible_viz,
+                                      path = app_sys("app/www/viz_icons/"),#app_sys(paste0("app/www/viz_icons/", "reconocimientoFacialApp")),
+                                      active = actual_but$active,
+                                      #tooltips = viz_tool(),
+                                      imageStyle = list(borderColor = "#ffffff",
+                                                        borderSize = "1px",
+                                                        padding = "7px",
+                                                        shadow = TRUE)
+        )
+      )
+    })
+    
+    
+    observe({
+      r$active_viz <- actual_but$active
+    })
+    
   })
 }
 

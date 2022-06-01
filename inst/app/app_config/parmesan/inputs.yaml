@@ -7,7 +7,24 @@ varViewId:
     choices: var_opts()
 selViewId:
   show: true
-  input_type: radioButtons
+  input_type: selectizeInput
   input_params:
     label: Selección de variable
     choices: selec_opts()
+    multiple: true
+    selected: selec_opts_def()
+    options:
+      maxItems: 2
+      plugins:
+      - - remove_button
+      - - drag_drop
+varNumId:
+  show: true
+  input_type: radioButtons
+  input_params:
+    label: Selección de información de interes
+    choices:
+      - Total
+      - Porcentaje
+
+

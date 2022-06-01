@@ -10,10 +10,10 @@
 mod_load_parmesan_ui <- function(id){
   ns <- NS(id)
   tagList(
-   uiOutput(ns("controls"))
+    uiOutput(ns("controls"))
   )
 }
-    
+
 #' load_parmesan Server Functions
 #'
 #' @noRd 
@@ -23,7 +23,7 @@ mod_load_parmesan_server <- function(id, r){
     
     var_opts <- reactive({
       req(r$quest_choose)
-    
+      
       ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
       df <- indiceDane %>% dplyr::filter(indicador %in% ind$indicador) %>% dplyr::distinct(idIndicador, indicador)
       setNames(df$idIndicador, df$indicador)
@@ -34,12 +34,20 @@ mod_load_parmesan_server <- function(id, r){
     selec_opts <- reactive({
       req(r$varViewId)
       df <- indiceDane %>% dplyr::filter(idIndicador %in% r$varViewId)
+      #print(df)
       if(all(is.na(df$variables))) return()
-      unique(df$variables)
-      #setNames(df$idIndicador, df$indicador)
-
+      if(all(is.na(df$varId))) {
+        unique(df$variables)
+      } else {
+        setNames(df$varId, df$variables)
+      }
+      
     })
     
+    selec_opts_def <- reactive({
+      req(selec_opts())
+      selec_opts()[1]
+    })
     
     
     # Initialize parmesan
@@ -74,9 +82,9 @@ mod_load_parmesan_server <- function(id, r){
     
   })
 }
-    
+
 ## To be copied in the UI
 # mod_load_parmesan_ui("load_parmesan_ui_1")
-    
+
 ## To be copied in the server
 # mod_load_parmesan_server("load_parmesan_ui_1")
