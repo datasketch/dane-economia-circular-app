@@ -33,6 +33,8 @@ mod_filter_data_server <- function(id, r){
           if (varNumId != "Porcentaje") {
             varNumId <- names(df)[grepl("Valor|Estimador Total",names(df))]
           }
+          indNa <- is.na(df[[varNumId]])
+          df <- df[!indNa,]
           df[,c(r$selViewId, varNumId)]
         }
       },

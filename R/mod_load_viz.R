@@ -49,6 +49,7 @@ mod_load_viz_server <- function(id, r){
         ver_title = " ",
         orientation = "hor",
         drop_na = TRUE,
+        #drop_na_
         agg = agg_tog,
         background_color = "transparent",
         format_sample_num = format_sample_num,
