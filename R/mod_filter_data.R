@@ -26,6 +26,8 @@ mod_filter_data_server <- function(id, r){
         if(is.null(r$d_sel)) {
           return()
         } else {
+          #req(r$varViewId)
+          #print(r$varViewId)
           req(r$selViewId)
           req(r$varNumId)
           varNumId <- r$varNumId
@@ -33,8 +35,10 @@ mod_filter_data_server <- function(id, r){
           if (varNumId != "Porcentaje") {
             varNumId <- names(df)[grepl("Valor|Estimador Total",names(df))]
           }
+          #if (r$varViewId == "") {
           indNa <- is.na(df[[varNumId]])
           df <- df[!indNa,]
+          #}
           df[,c(r$selViewId, varNumId)]
         }
       },
