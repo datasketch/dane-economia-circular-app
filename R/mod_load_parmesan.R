@@ -23,17 +23,20 @@ mod_load_parmesan_server <- function(id, r){
     ns <- session$ns
     
     
-    output$filterOptions <- renderUI({
+    dicFilter <- reactive({
       req(r$quest_choose)
       req(r$varViewId)
       req(r$d_sel)
       ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
       df <- indiceDane %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(varId)
-
+      df
+    })
+    
+    output$filterOptions <- renderUI({
+      req(dicFilter())
+      df <- dicFilter()
       if (nrow(df) > 0) {
       purrr::map(1:nrow(df), function(i) {
-      print(ns(tolower(stringi::stri_trans_general(str = df$varId[i], id = "Latin-ASCII"))))
-     
           shiny::selectizeInput(inputId = ns(tolower(stringi::stri_trans_general(str = df$varId[i], id = "Latin-ASCII"))), 
                                 label = paste0("Filtrar ", df$variables[i]), 
                                 choices = setdiff(unique(r$d_sel[[df$varId[i]]]), NA),
@@ -51,14 +54,11 @@ mod_load_parmesan_server <- function(id, r){
 
     
     observe({
-      req(r$quest_choose)
-      req(r$varViewId)
-      req(r$d_sel)
-      ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
-      df <- indiceDane %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(varId)
+      req(dicFilter())
+      df <- dicFilter()
       extra_inputs <- tolower(stringi::stri_trans_general(str = df$varId, id = "Latin-ASCII"))
+      r$titleViz <- setdiff(dicFilter()$titulo, NA)
       for(extra_input in extra_inputs){
-        print(extra_input)
         get_extraInput <- input[[extra_input]]
         r[[extra_input]] <- get_extraInput
       }

@@ -28,13 +28,21 @@ mod_load_viz_server <- function(id, r){
       r$d_fil
     })
     
+    title_viz <- reactive({
+      tx <- r$titleViz
+      if (is.null(tx)) {
+        tx <- " "
+      } else {
+        req(r$varNumId)
+        req(r$selViewId)
+        tx <- paste0(r$varNumId, paste0(" ", tx, " "), r$selViewId,collapse = " y ")
+        tx 
+      }
+    })
     
     
     viz_opts <- reactive({
       if (is.null(r$active_viz)) return()
-      print("inputt")
-     print(r[["departamento"]])
-     print(r[["area"]])
       req(r$varNumId)
       agg_tog <- "sum"
       format_sample_num <- "1,234."
@@ -51,6 +59,7 @@ mod_load_viz_server <- function(id, r){
         ver_title = " ",
         orientation = "hor",
         drop_na = TRUE,
+        title = title_viz(),
         #drop_na_
         agg = agg_tog,
         background_color = "transparent",
