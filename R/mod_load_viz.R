@@ -32,7 +32,9 @@ mod_load_viz_server <- function(id, r){
     
     viz_opts <- reactive({
       if (is.null(r$active_viz)) return()
-    
+      print("inputt")
+     print(r[["departamento"]])
+     print(r[["area"]])
       req(r$varNumId)
       agg_tog <- "sum"
       format_sample_num <- "1,234."

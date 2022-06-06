@@ -10,7 +10,8 @@
 mod_load_parmesan_ui <- function(id){
   ns <- NS(id)
   tagList(
-    uiOutput(ns("controls"))
+    uiOutput(ns("controls")),
+    uiOutput(ns("filterOptions"))
   )
 }
 
@@ -20,6 +21,50 @@ mod_load_parmesan_ui <- function(id){
 mod_load_parmesan_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+    
+    
+    output$filterOptions <- renderUI({
+      req(r$quest_choose)
+      req(r$varViewId)
+      req(r$d_sel)
+      ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
+      df <- indiceDane %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(varId)
+
+      if (nrow(df) > 0) {
+      purrr::map(1:nrow(df), function(i) {
+      print(ns(tolower(stringi::stri_trans_general(str = df$varId[i], id = "Latin-ASCII"))))
+     
+          shiny::selectizeInput(inputId = ns(tolower(stringi::stri_trans_general(str = df$varId[i], id = "Latin-ASCII"))), 
+                                label = paste0("Filtrar ", df$variables[i]), 
+                                choices = setdiff(unique(r$d_sel[[df$varId[i]]]), NA),
+                                selected = NULL, multiple = TRUE, 
+                                options = list(placeholder = "Todos", 
+                                               plugins = list(
+                                                 "remove_button",
+                                                 "drag_drop"))
+          )
+        })
+      }
+      
+    })
+    
+
+    
+    observe({
+      req(r$quest_choose)
+      req(r$varViewId)
+      req(r$d_sel)
+      ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
+      df <- indiceDane %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(varId)
+      extra_inputs <- tolower(stringi::stri_trans_general(str = df$varId, id = "Latin-ASCII"))
+      for(extra_input in extra_inputs){
+        print(extra_input)
+        get_extraInput <- input[[extra_input]]
+        r[[extra_input]] <- get_extraInput
+      }
+    })
+    
+    
     
     var_opts <- reactive({
       req(r$quest_choose)

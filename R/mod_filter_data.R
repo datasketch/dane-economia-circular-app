@@ -26,12 +26,33 @@ mod_filter_data_server <- function(id, r){
         if(is.null(r$d_sel)) {
           return()
         } else {
-          #req(r$varViewId)
-          #print(r$varViewId)
+          req(r$quest_choose)
+          req(r$varViewId)
+          
           req(r$selViewId)
           req(r$varNumId)
           varNumId <- r$varNumId
           df <- r$d_sel
+          
+        
+          ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
+          dicFilters <- indiceDane %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(varId)
+          dicFilters$temV <- tolower(stringi::stri_trans_general(str = dicFilters$varId, id = "Latin-ASCII"))
+          print(paste0(r$quest_choose, tolower(stringi::stri_trans_general(str = dicFilters$varId, id = "Latin-ASCII"))))
+          #paste0(r$quest_choose, dicFilters$varId[i])
+          #
+          purrr::map(1:nrow(dicFilters), function(i) {
+         
+            ids <- tolower(stringi::stri_trans_general(str = dicFilters$varId[i], id = "Latin-ASCII"))
+            if(!is.null(r[[ids]])) {
+              varS <- r[[ids]]
+              print(ids)
+              varF <- dicFilters %>% dplyr::filter(temV %in% ids) 
+              indR <- grepl(paste0(varS, collapse = "|"), df[[varF$varId]])
+              df <<- df[indR,]
+            } 
+          })
+         
           if (varNumId != "Porcentaje") {
             varNumId <- names(df)[grepl("Valor|Estimador Total",names(df))]
           }
