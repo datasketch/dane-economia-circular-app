@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap');
+
+
+html, body {
+  font-family: 'Open Sans', sans-serif !important;
+}
 
 .shinybusy, .shinybusy-ready {
  top: 30% !important;

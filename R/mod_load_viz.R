@@ -53,8 +53,8 @@ mod_load_viz_server <- function(id, r){
       
       opts_viz <- list(
         data = r$d_fil,
-        palette_colors = c("#267284", "#22776A", "#43A292", "#0B5D78","#84CDE4", "#7C7B7B", "#A7A6A6", "#D9D9D9"),
-        na_color = "#c8c8c8",
+        palette_colors = c("#22776A", "#43A292", "#0B5D78", "#2A819C", "#84CDE4", "#A7A6A6", "#575756"),
+        na_color = "#dddddd",
         hor_title = " ",
         ver_title = " ",
         orientation = "hor",
@@ -62,12 +62,12 @@ mod_load_viz_server <- function(id, r){
         title = title_viz(),
         #drop_na_
         agg = agg_tog,
-        background_color = "transparent",
+        background_color = "#fafafa",
         format_sample_num = format_sample_num,
         title_size = 15,
         title_align = "center",
-        title_color = "#212121",
-        text_color = "#333333",
+        title_color = "#0F0F0F",
+        text_color = "#0F0F0F", 
         #tooltip = tooltip_viz(),
         text_family = "Fira Sans",
         title_family = "Fira Sans",
@@ -77,7 +77,6 @@ mod_load_viz_server <- function(id, r){
         dataLabels_show = TRUE,
         #sort = "desc", ##dbd9d9 grid color
         grid_x_width = 0,
-        map_zoom = 5,
         map_min_zoom = 5
       )
       
@@ -85,7 +84,7 @@ mod_load_viz_server <- function(id, r){
         opts_viz$legend_show <- FALSE
         opts_viz$color_by <- names(r$d_fil)[1]
         #opts_viz$palette_type <- "sequential"
-        opts_viz$palette_colors <- c("#22776A", "#43A292", "#0B5D78","#84CDE4", "#7C7B7B", "#A7A6A6", "#D9D9D9")
+        #opts_viz$palette_colors <- c("#22776A", "#43A292", "#0B5D78","#84CDE4", "#7C7B7B", "#A7A6A6", "#D9D9D9")
       }
       
       # if (r$active_viz == "bar") {
@@ -99,7 +98,7 @@ mod_load_viz_server <- function(id, r){
       if (r$active_viz == "map") {
         opts_viz$map_name <- "col_departments"
         #opts_viz$map_tiles <- "OpenStreetMap.Mapnik"
-        opts_viz$palette_colors <- c("#0B7032", "#B4DEE0", "#6ABFA2", "#B4DEE0", "#0B7032")
+        opts_viz$palette_colors <- c( "#EBF6FB", "#B4DEE0", "#6ABFA2", "#2CA361", "#0B7032")
       }
       
       opts_viz
