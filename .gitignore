@@ -1,5 +1,4 @@
 .Rbuildignore
-data-raw/
 .Rprofile
 .Rhistory
 rsconnect/
