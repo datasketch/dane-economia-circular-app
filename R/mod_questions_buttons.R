@@ -23,12 +23,9 @@ mod_questions_buttons_server <- function(id, r){
 
     
     output$generalFilters <- renderUI({
-      question_buttons(c("extraccion", "consumo", "produccion", "cierre"), 
-                       c("Extracción de reservas mineras",
-                         "Consumo y uso", 
-                         "Producción de bienes y servicios",
-                         "Cierre y optimización en ciclos de vida de los materiales y productos")
-      )
+      req(indiceDane)
+      ft <- indiceDane %>% dplyr::select(id, indicador_general) %>% dplyr::distinct()
+      question_buttons(ft$id, ft$indicador_general)
     })
     
  

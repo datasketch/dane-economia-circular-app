@@ -22,7 +22,6 @@ app_server <- function( input, output, session ) {
   
   observe({
     r$quest_choose <- quest_choose()
-    r$uiClasses <- input$shi18ny_ui_classes
   })
   
   mod_load_parmesan_server("load_parmesan_ui_1", r)
