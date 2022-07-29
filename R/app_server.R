@@ -16,7 +16,7 @@ app_server <- function( input, output, session ) {
   
   quest_choose <- reactive({
     last_btn <- input$last_click
-    if (is.null(last_btn)) last_btn <- "extraccion"
+    if (is.null(last_btn)) last_btn <- "demanda"
     last_btn
   })
   
@@ -28,11 +28,9 @@ app_server <- function( input, output, session ) {
   mod_viz_selection_server("viz_selection_ui_1", r)
   mod_selected_data_server("selected_data_ui_1", r)
   mod_filter_data_server("filter_data_ui_1", r)
-  mod_viz_data_server("viz_data_ui_1", r)
   mod_data_to_table_server("data_to_table_ui_1", r)
   mod_viz_type_server("viz_type_ui_1", r)
   mod_load_viz_server("load_viz_ui_1", r)
-  mod_click_info_server("click_info_ui_1", r)
   mod_download_viz_server("download_viz_ui_1", r)
   
 }

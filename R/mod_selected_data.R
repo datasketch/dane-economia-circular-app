@@ -26,14 +26,14 @@ mod_selected_data_server <- function(id, r){
       req(r$varViewId)
       #print(r$varViewId)
       df <- NULL
-      if (r$quest_choose == "extraccion") {
-        return()
-      } else if (r$quest_choose == "consumo") {
-      df <- dataConsumo[[r$varViewId]]
-      } else if (r$quest_choose == "produccion") {
-        return()
-      } else if (r$quest_choose == "cierre") {
-      df <- dataCierre[[r$varViewId]]
+      if (r$quest_choose == "demanda") {
+       df <- dataDemanda[[r$varViewId]]
+      } else if (r$quest_choose == "factores") {
+      df <- dataFactores[[r$varViewId]]
+      } else if (r$quest_choose == "conservacion") {
+      df <- dataConservacion[[r$varViewId]]
+      } else if (r$quest_choose == "presion") {
+      df <- dataPresion[[r$varViewId]]
       } else {
         return()
       }

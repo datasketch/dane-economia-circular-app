@@ -30,14 +30,14 @@ mod_load_viz_server <- function(id, r){
     
     title_viz <- reactive({
       tx <- r$titleViz
-      if (is.null(tx)) {
-        tx <- " "
-      } else {
-        req(r$varNumId)
-        req(r$selViewId)
-        tx <- paste0(r$varNumId, paste0(" ", tx, " "), r$selViewId,collapse = " y ")
-        tx 
-      }
+      
+      if (is.null(tx)) return()
+      if (nrow(tx) == 0) tx <- " "
+
+      req(r$varNumId)
+      req(r$selViewId)
+      tx <- tx %>% dplyr::filter(variables %in% r$selViewId, variables_cantidad %in% r$varNumId)
+      tx <- unique(tx$`Nombre gráfica`)
     })
     
     

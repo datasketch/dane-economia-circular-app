@@ -3,7 +3,7 @@ varViewId:
   show: true
   input_type: selectizeInput
   input_params:
-    label: Selección de información de interes
+    label: Selección datos de interes
     choices: var_opts()
 selViewId:
   show: true
@@ -23,8 +23,6 @@ varNumId:
   input_type: radioButtons
   input_params:
     label: Selección de información de interes
-    choices:
-      - Total
-      - Porcentaje
+    choices: varNumOps()
 
 

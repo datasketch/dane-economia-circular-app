@@ -26,20 +26,19 @@ mod_load_parmesan_server <- function(id, r){
     dicFilter <- reactive({
       req(r$quest_choose)
       req(r$varViewId)
-      req(r$d_sel)
-      ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
-      df <- indiceDane %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(varId)
+      df <- indiceDane %>% dplyr::filter(id %in% r$quest_choose, idIndicador %in% r$varViewId)
+        print(df)
       df
     })
     
     output$filterOptions <- renderUI({
       req(dicFilter())
-      df <- dicFilter()
+      df <- dicFilter() %>% dplyr::distinct(variables, .keep_all = T)
       if (nrow(df) > 0) {
-      purrr::map(1:nrow(df), function(i) {
-          shiny::selectizeInput(inputId = ns(tolower(stringi::stri_trans_general(str = df$varId[i], id = "Latin-ASCII"))), 
+        purrr::map(1:nrow(df), function(i) {
+          shiny::selectizeInput(inputId = ns(tolower(stringi::stri_trans_general(str = df$variables[i], id = "Latin-ASCII"))), 
                                 label = paste0("Filtrar ", df$variables[i]), 
-                                choices = setdiff(unique(r$d_sel[[df$varId[i]]]), NA),
+                                choices = setdiff(unique(r$d_sel[[df$variables[i]]]), NA),
                                 selected = NULL, multiple = TRUE, 
                                 options = list(placeholder = "Todos", 
                                                plugins = list(
@@ -51,13 +50,13 @@ mod_load_parmesan_server <- function(id, r){
       
     })
     
-
+    
     
     observe({
       req(dicFilter())
       df <- dicFilter()
-      extra_inputs <- tolower(stringi::stri_trans_general(str = df$varId, id = "Latin-ASCII"))
-      r$titleViz <- setdiff(dicFilter()$titulo, NA)
+      extra_inputs <- tolower(stringi::stri_trans_general(str = df$variables, id = "Latin-ASCII"))
+      r$titleViz <- dicFilter()
       for(extra_input in extra_inputs){
         get_extraInput <- input[[extra_input]]
         r[[extra_input]] <- get_extraInput
@@ -69,8 +68,7 @@ mod_load_parmesan_server <- function(id, r){
     var_opts <- reactive({
       req(r$quest_choose)
       
-      ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
-      df <- indiceDane %>% dplyr::filter(indicador %in% ind$indicador) %>% dplyr::distinct(idIndicador, indicador)
+      df <- indiceDane %>% dplyr::filter(id %in% r$quest_choose) %>% dplyr::distinct(idIndicador, indicador)
       setNames(df$idIndicador, df$indicador)
       
     })
@@ -81,11 +79,7 @@ mod_load_parmesan_server <- function(id, r){
       df <- indiceDane %>% dplyr::filter(idIndicador %in% r$varViewId)
       #print(df)
       if(all(is.na(df$variables))) return()
-      if(all(is.na(df$varId))) {
-        unique(df$variables)
-      } else {
-        setNames(df$varId, df$variables)
-      }
+      unique(df$variables)
       
     })
     
@@ -94,6 +88,13 @@ mod_load_parmesan_server <- function(id, r){
       selec_opts()[1]
     })
     
+    varNumOps <- reactive({
+      if (is.null(r$selViewId)) return()
+      req(r$varViewId)
+      df <- indiceDane %>% dplyr::filter(idIndicador %in% r$varViewId,
+                                         variables %in% r$selViewId)
+      unique(df$variables_cantidad)
+    })
     
     # Initialize parmesan
     path <- app_sys("app/app_config/parmesan")

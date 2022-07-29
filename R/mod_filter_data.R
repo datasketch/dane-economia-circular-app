@@ -36,26 +36,28 @@ mod_filter_data_server <- function(id, r){
           
         
           ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
-          dicFilters <- indiceDane %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(varId)
-          dicFilters$temV <- tolower(stringi::stri_trans_general(str = dicFilters$varId, id = "Latin-ASCII"))
-          print(paste0(r$quest_choose, tolower(stringi::stri_trans_general(str = dicFilters$varId, id = "Latin-ASCII"))))
-          #paste0(r$quest_choose, dicFilters$varId[i])
-          #
+          dicFilters <- indiceDane %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(variables)
+          dicFilters$temV <- tolower(stringi::stri_trans_general(str = dicFilters$variables, id = "Latin-ASCII"))
+          print("$$$$$$$$$$$$$$$$4")
+          print(dicFilters)
+          
           purrr::map(1:nrow(dicFilters), function(i) {
          
-            ids <- tolower(stringi::stri_trans_general(str = dicFilters$varId[i], id = "Latin-ASCII"))
+            ids <- tolower(stringi::stri_trans_general(str = dicFilters$variables[i], id = "Latin-ASCII"))
             if(!is.null(r[[ids]])) {
               varS <- r[[ids]]
-              print(ids)
+              print(df)
               varF <- dicFilters %>% dplyr::filter(temV %in% ids) 
-              indR <- grepl(paste0(varS, collapse = "|"), df[[varF$varId]])
+              indR <- grepl(paste0(varS, collapse = "|"), df[[varF$variables]])
+              print("######3")
+              print(indR)
               df <<- df[indR,]
             } 
           })
          
-          if (varNumId != "Porcentaje") {
-            varNumId <- names(df)[grepl("Valor|Estimador Total",names(df))]
-          }
+          # if (varNumId != "Porcentaje") {
+          #   varNumId <- names(df)[grepl("Valor|Estimador Total",names(df))]
+          # }
           #if (r$varViewId == "") {
           indNa <- is.na(df[[varNumId]])
           df <- df[!indNa,]
