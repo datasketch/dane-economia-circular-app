@@ -10,10 +10,10 @@
 mod_data_to_table_ui <- function(id){
   ns <- NS(id)
   tagList(
-
+   uiOutput(ns("textCaption")) 
   )
 }
-    
+
 #' data_to_table Server Functions
 #'
 #' @noRd 
@@ -21,14 +21,21 @@ mod_data_to_table_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-   
+    output$textCaption <- renderUI({
+      if (is.null(r$textCap)) return()
+      tx <- ""
+      if (!is.null(r$textCap)) {
+        tx <- r$textCap
+      }
+      HTML(tx)
+    })
     
     
   })
 }
-    
+
 ## To be copied in the UI
 # mod_data_to_table_ui("data_to_table_ui_1")
-    
+
 ## To be copied in the server
 # mod_data_to_table_server("data_to_table_ui_1")

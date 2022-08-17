@@ -24,6 +24,10 @@ html, body {
   margin-bottom: 5px;
 }
 
+#load_viz_ui_1-viz_print {
+  margin-top: -20px !important;
+}
+
 .btn-default {
 font-family: Roboto;
  background: #ffffff !important;

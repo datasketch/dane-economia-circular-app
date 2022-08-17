@@ -40,6 +40,21 @@ mod_load_viz_server <- function(id, r){
       tx <- unique(tx$`Nombre gráfica`)
     })
     
+    caption_viz <- reactive({
+      tx <- r$titleViz
+      
+      if (is.null(tx)) return()
+      if (nrow(tx) == 0) {
+        tx <- " "
+      } else {
+      req(r$varNumId)
+      req(r$selViewId)
+      tx <- tx %>% dplyr::filter(variables %in% r$selViewId, variables_cantidad %in% r$varNumId)
+      tx <- unique(tx$`Nota del indicador`)
+      }
+      tx
+    })
+    
     
     viz_opts <- reactive({
       if (is.null(r$active_viz)) return()
@@ -60,6 +75,7 @@ mod_load_viz_server <- function(id, r){
         orientation = "hor",
         drop_na = TRUE,
         title = title_viz(),
+        #caption = caption_viz(),
         #drop_na_
         agg = agg_tog,
         background_color = "#fafafa",
@@ -69,8 +85,8 @@ mod_load_viz_server <- function(id, r){
         title_color = "#0F0F0F",
         text_color = "#0F0F0F", 
         #tooltip = tooltip_viz(),
-        text_family = "Fira Sans",
-        title_family = "Fira Sans",
+        text_family = "Roboto",#"Fira Sans",
+        title_family = "Roboto",#"Fira Sans",
         label_wrap = 30,
         label_wrap_legend = 100,
         marker_radius = 7,
@@ -164,9 +180,9 @@ mod_load_viz_server <- function(id, r){
       if (r$active_viz == "table") {
         DT::dataTableOutput(ns("table_dt"), width = 920)
       } else if (r$active_viz == "map") {
-        leaflet::leafletOutput(ns("viz_lflt"), height = 680)
+        leaflet::leafletOutput(ns("viz_lflt"), height = 600)
       } else {
-        highcharter::highchartOutput(ns("viz_hgch"), height = 680)
+        highcharter::highchartOutput(ns("viz_hgch"), height = 600)
       }
       
     })
@@ -174,6 +190,7 @@ mod_load_viz_server <- function(id, r){
     
     observe({
       r$downViz <- r_viz()
+      r$textCap <- caption_viz()
     })
     
     

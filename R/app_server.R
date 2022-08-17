@@ -31,6 +31,7 @@ app_server <- function( input, output, session ) {
   mod_data_to_table_server("data_to_table_ui_1", r)
   mod_viz_type_server("viz_type_ui_1", r)
   mod_load_viz_server("load_viz_ui_1", r)
+  mod_data_to_table_server("data_to_table_ui_1", r)
   mod_download_viz_server("download_viz_ui_1", r)
   
 }
