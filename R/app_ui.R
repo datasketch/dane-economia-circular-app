@@ -14,17 +14,18 @@ app_ui <- function(request) {
                          id = "azul",
                          width = 350,
                          body = div(
-                           div(style = "max-height: 300px !important; overflow: auto; margin-bottom: 5%;",
+                           p(class = "titles-buttons", "Seleccione componente"),
+                           div(style = "max-height: 300px !important; overflow: auto; margin-bottom: 0px;",
                                mod_questions_buttons_ui("questions_buttons_ui_1")
                            ),
                            mod_load_parmesan_ui("load_parmesan_ui_1")
-                         ),
-                         footer =  div(style = "display:flex;gap:10px",
-                           tags$a(
-                           href="https://www.datasketch.co", target="blank",
-                           img(src= 'www/img/logo-ds.png', align = "left", width = 150, height = 110)),
-                           img(src= 'www/img/logo-dane.png', align = "left", width = 120, height = 80)
-                         )
+                         )#,
+                         # footer =  div(style = "display:flex;gap:10px",
+                         #   tags$a(
+                         #   href="https://www.datasketch.co", target="blank",
+                         #   img(src= 'www/img/logo-ds.png', align = "left", width = 150, height = 110)),
+                         #   img(src= 'www/img/logo-dane.png', align = "left", width = 120, height = 80)
+                         # )
       ),
       shinypanels::panel(title = "VISUALIZACIÓN",
                          id = "naranja",

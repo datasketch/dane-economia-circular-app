@@ -23,7 +23,7 @@ purrr::map(list_pkg, function(pkg){
 })
 
 list_pkg_gh <- c("parmesan", "shinyinvoer", "shinypanels",
-                 "dsmodules",  "hgchmagic")
+                 "dsmodules",  "hgchmagic", "lfltmagic")
 purrr::map(list_pkg_gh, function(pkg){
   usethis::use_dev_package(pkg) 
 })

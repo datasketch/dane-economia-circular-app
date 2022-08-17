@@ -3,13 +3,13 @@ varViewId:
   show: true
   input_type: selectizeInput
   input_params:
-    label: Selección datos de interes
+    label: Seleccione indicador
     choices: var_opts()
 selViewId:
   show: true
   input_type: selectizeInput
   input_params:
-    label: Selección de variable
+    label: Seleccione variable
     choices: selec_opts()
     multiple: true
     selected: selec_opts_def()

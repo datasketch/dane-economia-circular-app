@@ -36,7 +36,7 @@ mod_load_parmesan_server <- function(id, r){
       df <- dicFilter() %>% dplyr::distinct(variables, .keep_all = T)
       if (nrow(df) > 0) {
         purrr::map(1:nrow(df), function(i) {
-          shiny::selectizeInput(inputId = ns(tolower(stringi::stri_trans_general(str = df$variables[i], id = "Latin-ASCII"))), 
+          shiny::selectizeInput(inputId = ns(make.names(df$variables[i])), 
                                 label = paste0("Filtrar ", df$variables[i]), 
                                 choices = setdiff(unique(r$d_sel[[df$variables[i]]]), NA),
                                 selected = NULL, multiple = TRUE, 
@@ -55,7 +55,7 @@ mod_load_parmesan_server <- function(id, r){
     observe({
       req(dicFilter())
       df <- dicFilter()
-      extra_inputs <- tolower(stringi::stri_trans_general(str = df$variables, id = "Latin-ASCII"))
+      extra_inputs <- make.names( df$variables)
       r$titleViz <- dicFilter()
       for(extra_input in extra_inputs){
         get_extraInput <- input[[extra_input]]

@@ -508,7 +508,7 @@
       "Version": "0.0.0.9000",
       "Source": "unknown",
       "Remotes": "datasketch/parmesan, datasketch/shinyinvoer,\n        datasketch/shinypanels, datasketch/dsmodules,\n        datasketch/hgchmagic",
-      "Hash": "eccca1d5a37cd4b384770ddb1ff71730",
+      "Hash": "3947ea5074c46e76d163c7a1f4729017",
       "Requirements": [
         "DT",
         "dsmodules",
@@ -516,6 +516,7 @@
         "hgchmagic",
         "lfltmagic",
         "parmesan",
+        "shiny",
         "shinybusy",
         "shinydisconnect",
         "shinyinvoer",
@@ -1782,6 +1783,14 @@
         "yaml"
       ]
     },
+    "parsedate": {
+      "Package": "parsedate",
+      "Version": "1.3.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "4fe511a06367943d4372478cd1c4b395",
+      "Requirements": []
+    },
     "paws.common": {
       "Package": "paws.common",
       "Version": "0.3.17",
@@ -2192,10 +2201,10 @@
     },
     "renv": {
       "Package": "renv",
-      "Version": "0.15.2",
+      "Version": "0.15.5",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "206c4ef8b7ad6fb1060d69aa7b9dfe69",
+      "Hash": "6a38294e7d12f5d8e656b08c5bd8ae34",
       "Requirements": []
     },
     "reprex": {
@@ -2235,6 +2244,35 @@
       "Hash": "7cfa4f73a070042ecf141d5c1d1bfcae",
       "Requirements": [
         "sp"
+      ]
+    },
+    "rhub": {
+      "Package": "rhub",
+      "Version": "1.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "977cce19c029acc6d88a1c861f224819",
+      "Requirements": [
+        "R6",
+        "assertthat",
+        "callr",
+        "cli",
+        "crayon",
+        "desc",
+        "digest",
+        "httr",
+        "jsonlite",
+        "parsedate",
+        "pillar",
+        "prettyunits",
+        "processx",
+        "rappdirs",
+        "rcmdcheck",
+        "rematch",
+        "tibble",
+        "uuid",
+        "whoami",
+        "withr"
       ]
     },
     "rio": {
@@ -3002,6 +3040,17 @@
       "Repository": "CRAN",
       "Hash": "ca970b96d894e90397ed20637a0c1bbe",
       "Requirements": []
+    },
+    "whoami": {
+      "Package": "whoami",
+      "Version": "1.3.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "ef0f4d9b8f2cc2ebeccae1d725b8a023",
+      "Requirements": [
+        "httr",
+        "jsonlite"
+      ]
     },
     "withr": {
       "Package": "withr",

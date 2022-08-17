@@ -20,15 +20,17 @@ mod_questions_buttons_ui <- function(id){
 mod_questions_buttons_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
-
+    
     
     output$generalFilters <- renderUI({
-      req(indiceDane)
-      ft <- indiceDane %>% dplyr::select(id, indicador_general) %>% dplyr::distinct()
-      question_buttons(ft$id, ft$indicador_general)
+      question_buttons(c("demanda", "conservacion", "presion", "factores"),
+                       c("Demanda de activos ambientales y servicios ecosistémicos",   
+                         "Conservación o pérdida de valor de los materiales en el sistema productivo",
+                         "Presión en los ecosistemas por la disposición de residuos",                 
+                         "Factores que facilitan la economía circular"))
     })
     
- 
+    
   })
 }
 

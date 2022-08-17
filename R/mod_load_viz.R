@@ -50,7 +50,7 @@ mod_load_viz_server <- function(id, r){
       format_sample_num <- "1,234.56"
       agg_tog <- "mean"
       }
-      
+    
       opts_viz <- list(
         data = r$d_fil,
         palette_colors = c("#22776A", "#43A292", "#0B5D78", "#2A819C", "#84CDE4", "#A7A6A6", "#575756"),

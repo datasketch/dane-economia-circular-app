@@ -23,7 +23,7 @@ ls <- purrr::map(unique(demanda$idIndicador), function (i) {
   
   indTotal <- grep("Total|total", df)
   if (!identical(indTotal, integer())) {
-    df <- df[-grep("Total|total", ff[[indTotal[1]]]),]
+    df <- df[-grep("Total|total", df[[indTotal[1]]]),]
   }
   cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
     df[[n]] <<- as.numeric(gsub("\\,", ".",  df[[n]]))
@@ -45,7 +45,7 @@ ls <- purrr::map(unique(conservacion$idIndicador), function (i) {
 
   indTotal <- grep("Total|total", df)
   if (!identical(indTotal, integer())) {
-    df <- df[-grep("Total|total", ff[[indTotal[1]]]),]
+    df <- df[-grep("Total|total", df[[indTotal[1]]]),]
   }
   cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
     df[[n]] <<- as.numeric(gsub(",", ".",  df[[n]]))
@@ -70,7 +70,7 @@ ls <- purrr::map(unique(presion$idIndicador), function (i) {
   
   indTotal <- grep("Total|total", df)
   if (!identical(indTotal, integer())) {
-    df <- df[-grep("Total|total", ff[[indTotal[1]]]),]
+    df <- df[-grep("Total|total", df[[indTotal[1]]]),]
   }
   cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
     df[[n]] <<- as.numeric(gsub(",", ".",  df[[n]]))
@@ -94,7 +94,7 @@ ls <- purrr::map(unique(factores$idIndicador), function (i) {
   
   indTotal <- grep("Total|total", df)
   if (!identical(indTotal, integer())) {
-    df <- df[-grep("Total|total", ff[[indTotal[1]]]),]
+    df <- df[-grep("Total|total", df[[indTotal[1]]]),]
   }
   cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
     df[[n]] <<- as.numeric(gsub(",", ".",  df[[n]]))
