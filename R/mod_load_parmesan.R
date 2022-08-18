@@ -36,6 +36,8 @@ mod_load_parmesan_server <- function(id, r){
       df <- dicFilter() %>% dplyr::distinct(variables, .keep_all = T)
       if (nrow(df) > 0) {
         purrr::map(1:nrow(df), function(i) {
+          print("variable de filtro")
+          print(make.names(df$variables[i]))
           shiny::selectizeInput(inputId = ns(make.names(df$variables[i])), 
                                 label = paste0("Filtrar ", df$variables[i]), 
                                 choices = setdiff(unique(r$d_sel[[df$variables[i]]]), NA),

@@ -16,7 +16,7 @@ usethis::use_data(indiceDane, overwrite = TRUE)
 # Demanda
 demanda <- indiceDane %>% filter(id %in% "demanda")
 ls <- purrr::map(unique(demanda$idIndicador), function (i) {
-
+  #i <- "demanda14"
   fd <- demanda %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1s3RPwgNdPrTVq0kARqZwTSoKzk-8jGC5Ed2_ERXJoIg/edit#gid=1909007839", sheet = fd$`Nombre hoja`, col_types = "c")
   names(df) <- trimws(stringr::str_replace_all(names(df), "[\r\n]" , " "))

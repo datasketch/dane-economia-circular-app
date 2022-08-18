@@ -29,8 +29,10 @@ mod_viz_type_server <- function(id, r){
         tv <- "CatNum"
         if (ncol(df) == 3) tv <- "CatCatNum"
         if (sum(grepl("Año",names(df)))>0) {
+          if (r$active_viz == "line") {
           tv <- "YeaNum"
           if (ncol(df) == 3) tv <- "CatYeaNum"
+          }
         }
         tv
       },

@@ -19,10 +19,10 @@
     },
     "DT": {
       "Package": "DT",
-      "Version": "0.23",
+      "Version": "0.24",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "d8f1498dc47763ce4647c8d03214d30b",
+      "Hash": "c814c35b0bc58613b4632c8acaf80b04",
       "Requirements": [
         "crosstalk",
         "htmltools",
@@ -507,8 +507,8 @@
       "Package": "daneApp",
       "Version": "0.0.0.9000",
       "Source": "unknown",
-      "Remotes": "datasketch/parmesan, datasketch/shinyinvoer,\n        datasketch/shinypanels, datasketch/dsmodules,\n        datasketch/hgchmagic",
-      "Hash": "3947ea5074c46e76d163c7a1f4729017",
+      "Remotes": "datasketch/parmesan, datasketch/shinyinvoer,\n        datasketch/shinypanels, datasketch/dsmodules,\n        datasketch/hgchmagic, datasketch/lfltmagic",
+      "Hash": "c732480e1050ee163a19eec3685f7c11",
       "Requirements": [
         "DT",
         "dsmodules",
@@ -970,10 +970,10 @@
     },
     "gert": {
       "Package": "gert",
-      "Version": "1.6.0",
+      "Version": "1.7.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "98c014c4c933f23ea5a0321a4d0b588b",
+      "Hash": "e8432885a6c629a693c6e0716d1b68ec",
       "Requirements": [
         "askpass",
         "credentials",
@@ -1158,8 +1158,8 @@
       "RemoteRepo": "hgchmagic",
       "RemoteUsername": "datasketch",
       "RemoteRef": "HEAD",
-      "RemoteSha": "81b6366a215862dad17b470ef5ca120f95fa4dfe",
-      "Hash": "597a02d6795b3054244aecff395fd2ff",
+      "RemoteSha": "c2ed41cc98922a583788a15be5a0334d51d9add2",
+      "Hash": "3edce53490db13e70236b213498829cf",
       "Requirements": [
         "d3.format",
         "dsvizopts",
@@ -1523,8 +1523,8 @@
       "RemoteRepo": "lfltmagic",
       "RemoteUsername": "datasketch",
       "RemoteRef": "HEAD",
-      "RemoteSha": "ff397567b3eeecadf61a39b2e7329d103c13831a",
-      "Hash": "ddb898454b3f17cf223a0f45dd51f86e",
+      "RemoteSha": "453942833079b688e471068f10e22ace64c4e0fd",
+      "Hash": "cbcf97d9c8a70d90eb399a3354ba8430",
       "Requirements": [
         "d3.format",
         "dplyr",

@@ -44,21 +44,15 @@ mod_filter_data_server <- function(id, r){
             if(!is.null(r[[ids]])) {
               varS <- make.names(r[[ids]])
               varF <- dicFilters %>% dplyr::filter(temV %in% ids) 
-              indR <- grepl(paste0(varS, collapse = "|"), make.names(df[[varF$variables]]))
+              indR <- grep(paste0(varS, collapse = "|"), make.names(df[[unique(varF$variables)]]))
               df <<- df[indR,]
+              df
             } 
           })
           
-        
-         
-          # if (varNumId != "Porcentaje") {
-          #   varNumId <- names(df)[grepl("Valor|Estimador Total",names(df))]
-          # }
-          #if (r$varViewId == "") {
-          # indNa <- is.na(df[[varNumId]])
-          # df <- df[!indNa,]
-          #}
+       
           df <- df[,c(r$selViewId, varNumId)]
+
           df
         }
       },

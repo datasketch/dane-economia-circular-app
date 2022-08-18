@@ -59,11 +59,12 @@ mod_load_viz_server <- function(id, r){
     viz_opts <- reactive({
       if (is.null(r$active_viz)) return()
       req(r$varNumId)
-      agg_tog <- "sum"
+      req(r$aggOps)
+      agg_tog <- r$aggOps
       format_sample_num <- "1,234."
+      #dataLabels_format_sample <- "1.234"
       if (r$varNumId != "Total") {
       format_sample_num <- "1,234.56"
-      agg_tog <- "mean"
       }
     
       opts_viz <- list(
