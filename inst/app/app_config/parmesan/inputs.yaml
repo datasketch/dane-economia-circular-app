@@ -4,17 +4,7 @@ varViewId:
   input_type: selectizeInput
   input_params:
     label: Seleccione indicador
-    choices: var_opts()
-aggOps:
-  show: true
-  input_type: radioButtons
-  input_params:
-    label: Agregación
-    choices:
-      Total:
-      - sum 
-      Promedio:
-      - mean     
+    choices: var_opts()  
 selViewId:
   show: true
   input_type: selectizeInput

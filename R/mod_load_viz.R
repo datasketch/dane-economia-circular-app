@@ -59,12 +59,11 @@ mod_load_viz_server <- function(id, r){
     viz_opts <- reactive({
       if (is.null(r$active_viz)) return()
       req(r$varNumId)
-      req(r$aggOps)
-      agg_tog <- r$aggOps
-      format_sample_num <- "1,234."
+     
+      format_sample_num <- "1.234,"
       #dataLabels_format_sample <- "1.234"
       if (r$varNumId != "Total") {
-      format_sample_num <- "1,234.56"
+      format_sample_num <- "1.234,56"
       }
     
       opts_viz <- list(
@@ -76,9 +75,8 @@ mod_load_viz_server <- function(id, r){
         orientation = "hor",
         drop_na = TRUE,
         title = title_viz(),
-        #caption = caption_viz(),
+        caption = caption_viz(),
         #drop_na_
-        agg = agg_tog,
         background_color = "#fafafa",
         format_sample_num = format_sample_num,
         title_size = 15,
@@ -90,11 +88,14 @@ mod_load_viz_server <- function(id, r){
         title_family = "Roboto",#"Fira Sans",
         label_wrap = 30,
         label_wrap_legend = 100,
+        legend_align = "center",
+        legend_verticalAlign = "top",
+        legend_maxHeight = 100,
         marker_radius = 7,
         dataLabels_show = TRUE,
         #sort = "desc", ##dbd9d9 grid color
-        grid_x_width = 0,
-        map_min_zoom = 5
+        grid_x_width = 0
+        
       )
       
       if (r$active_viz %in% c("treemap", "pie")) {
@@ -191,7 +192,6 @@ mod_load_viz_server <- function(id, r){
     
     observe({
       r$downViz <- r_viz()
-      r$textCap <- caption_viz()
     })
     
     

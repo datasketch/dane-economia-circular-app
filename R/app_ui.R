@@ -38,8 +38,7 @@ app_ui <- function(request) {
                          color = "chardonnay",
                          body = div(shinybusy::add_busy_spinner(spin = "fading-circle"),
                                     mod_load_viz_ui("load_viz_ui_1")
-                         ), 
-                         footer = div(mod_data_to_table_ui("data_to_table_ui_1"))
+                         )
       )
     )
   )

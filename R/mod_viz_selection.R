@@ -29,12 +29,12 @@ mod_viz_selection_server <- function(id, r){
       
       viz <- c("bar", "treemap")
       if (any(grepl("Año", names(df)))) {
-        if(length(unique(df$Año)) > 1) viz <- c(viz, "line")
+        if(length(unique(df$Año)) > 1) viz <- c("line", viz)
       }
-      if (length(names(df)) == 2) {
-        if (any(grepl("Departamento", names(df)))) {
-          viz <- c(viz, "map")
-        }}
+      # if (length(names(df)) == 2) {
+      #   if (any(grepl("Departamento", names(df)))) {
+      #     viz <- c(viz, "map")
+      #   }}
       #print(viz)
       c(viz, "table") 
       

@@ -2,6 +2,7 @@ library(googlesheets4)
 library(tidyverse)
 
 indiceDane <- read_sheet("https://docs.google.com/spreadsheets/d/1mMJAoyptnpatVmdJW--yJG0Axly0U59B5ttow_rVZAg/edit#gid=0")
+indiceDane <- indiceDane %>% filter(is.na(Eliminar))
 indiceDane$idIndicador <- indiceDane %>% group_by(`Nombre hoja`)%>% group_indices(`Nombre hoja`)
 indiceDane$idIndicador <- paste0(indiceDane$id, indiceDane$idIndicador)
 indiceDane <- indiceDane %>% rename(c("indicador_general" = "Filtro 1",
@@ -16,18 +17,18 @@ usethis::use_data(indiceDane, overwrite = TRUE)
 # Demanda
 demanda <- indiceDane %>% filter(id %in% "demanda")
 ls <- purrr::map(unique(demanda$idIndicador), function (i) {
-  #i <- "demanda14"
+  #i <- "demanda12"
   fd <- demanda %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1s3RPwgNdPrTVq0kARqZwTSoKzk-8jGC5Ed2_ERXJoIg/edit#gid=1909007839", sheet = fd$`Nombre hoja`, col_types = "c")
-  names(df) <- trimws(stringr::str_replace_all(names(df), "[\r\n]" , " "))
-  
-  indTotal <- grep("Total|total", df)
-  if (!identical(indTotal, integer())) {
-    df <- df[-grep("Total|total", df[[indTotal[1]]]),]
-  }
-  cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
-    df[[n]] <<- as.numeric(gsub("\\,", ".",  df[[n]]))
-  })
+  # names(df) <- trimws(stringr::str_replace_all(names(df), "[\r\n]" , " "))
+  # 
+  # indTotal <- grep("Total|total", df)
+  # if (!identical(indTotal, integer())) {
+  #   df <- df[-grep("Total|total", df[[indTotal[1]]]),]
+  # }
+  # cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
+  #   df[[n]] <<- as.numeric(gsub("\\,", ".",  df[[n]]))
+  # })
   df
 })
 names(ls) <- unique(demanda$idIndicador)
@@ -40,20 +41,20 @@ ls <- purrr::map(unique(conservacion$idIndicador), function (i) {
 
   fd <- conservacion %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1s3RPwgNdPrTVq0kARqZwTSoKzk-8jGC5Ed2_ERXJoIg/edit#gid=1909007839", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
-  names(df) <- trimws(stringr::str_replace_all(names(df), "[\r\n]" , " "))
-  
-
-  indTotal <- grep("Total|total", df)
-  if (!identical(indTotal, integer())) {
-    df <- df[-grep("Total|total", df[[indTotal[1]]]),]
-  }
-  cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
-    df[[n]] <<- as.numeric(gsub(",", ".",  df[[n]]))
-  })
+  # names(df) <- trimws(stringr::str_replace_all(names(df), "[\r\n]" , " "))
+  # 
+  # 
+  # indTotal <- grep("Total|total", df)
+  # if (!identical(indTotal, integer())) {
+  #   df <- df[-grep("Total|total", df[[indTotal[1]]]),]
+  # }
+  # cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
+  #   df[[n]] <<- as.numeric(gsub(",", ".",  df[[n]]))
+  # })
   df
 })
 names(ls) <- unique(conservacion$idIndicador)
-fff <- ls$conservacion37
+fff <- ls$conservacion26
 dataConservacion <- ls
 
 usethis::use_data(dataConservacion, overwrite = TRUE)
@@ -65,20 +66,20 @@ ls <- purrr::map(unique(presion$idIndicador), function (i) {
 
   fd <- presion %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1s3RPwgNdPrTVq0kARqZwTSoKzk-8jGC5Ed2_ERXJoIg/edit#gid=1909007839", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
-  names(df) <- trimws(stringr::str_replace_all(names(df), "[\r\n]" , " "))
-  
-  
-  indTotal <- grep("Total|total", df)
-  if (!identical(indTotal, integer())) {
-    df <- df[-grep("Total|total", df[[indTotal[1]]]),]
-  }
-  cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
-    df[[n]] <<- as.numeric(gsub(",", ".",  df[[n]]))
-  })
+  # names(df) <- trimws(stringr::str_replace_all(names(df), "[\r\n]" , " "))
+  # 
+  # 
+  # indTotal <- grep("Total|total", df)
+  # if (!identical(indTotal, integer())) {
+  #   df <- df[-grep("Total|total", df[[indTotal[1]]]),]
+  # }
+  # cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
+  #   df[[n]] <<- as.numeric(gsub(",", ".",  df[[n]]))
+  # })
   df
 })
 names(ls) <- unique(presion$idIndicador)
-fff <- ls$presion29
+fff <- ls$presion15
 dataPresion <- ls
 
 usethis::use_data(dataPresion, overwrite = TRUE)
@@ -89,16 +90,16 @@ ls <- purrr::map(unique(factores$idIndicador), function (i) {
   
   fd <- factores %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1s3RPwgNdPrTVq0kARqZwTSoKzk-8jGC5Ed2_ERXJoIg/edit#gid=1909007839", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
-  names(df) <- trimws(stringr::str_replace_all(names(df), "[\r\n]" , " "))
-  
-  
-  indTotal <- grep("Total|total", df)
-  if (!identical(indTotal, integer())) {
-    df <- df[-grep("Total|total", df[[indTotal[1]]]),]
-  }
-  cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
-    df[[n]] <<- as.numeric(gsub(",", ".",  df[[n]]))
-  })
+  # names(df) <- trimws(stringr::str_replace_all(names(df), "[\r\n]" , " "))
+  # 
+  # 
+  # indTotal <- grep("Total|total", df)
+  # if (!identical(indTotal, integer())) {
+  #   df <- df[-grep("Total|total", df[[indTotal[1]]]),]
+  # }
+  # cn <- purrr::map(unique(fd$variables_cantidad), function (n) {
+  #   df[[n]] <<- as.numeric(gsub(",", ".",  df[[n]]))
+  # })
   df
 })
 names(ls) <- unique(factores$idIndicador)
