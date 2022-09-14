@@ -21,12 +21,7 @@ mod_load_viz_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-   
-    output$aver <- renderPrint({
-      #print("viiiiiiiz")
-      #print(r$v_type)
-      r$d_fil
-    })
+
     
     title_viz <- reactive({
       tx <- r$titleViz
@@ -34,10 +29,10 @@ mod_load_viz_server <- function(id, r){
       if (is.null(tx)) return()
       if (nrow(tx) == 0) tx <- " "
 
-      req(r$varNumId)
-      req(r$selViewId)
-      tx <- tx %>% dplyr::filter(variables %in% r$selViewId, variables_cantidad %in% r$varNumId)
-      tx <- unique(tx$`Nombre gráfica`)
+      tx <- tx %>% dplyr::filter(variables %in% names(r$d_fil))
+      tx <- unique(tx$`Nombre gráfica`)[1]
+
+      tx
     })
     
     caption_viz <- reactive({
@@ -47,9 +42,8 @@ mod_load_viz_server <- function(id, r){
       if (nrow(tx) == 0) {
         tx <- " "
       } else {
-      req(r$varNumId)
-      req(r$selViewId)
-      tx <- tx %>% dplyr::filter(variables %in% r$selViewId, variables_cantidad %in% r$varNumId)
+    
+      tx <- tx %>% dplyr::filter(variables %in% names(r$d_fil))
       tx <- unique(tx$`Nota del indicador`)
       }
       tx
@@ -57,28 +51,31 @@ mod_load_viz_server <- function(id, r){
     
     
     viz_opts <- reactive({
+    
       if (is.null(r$active_viz)) return()
-      req(r$varNumId)
+      #req(r$varNumId)
      
       format_sample_num <- "1.234,"
-      #dataLabels_format_sample <- "1.234"
-      if (r$varNumId != "Total") {
-      format_sample_num <- "1.234,56"
-      }
-    
+ 
+    if (any(grepl("porcentaje",tolower(names(r$d_fil))))) {
+      format_sample_num <- "1.234,5"
+    }
+      #print(r$d_fil)
+      
       opts_viz <- list(
         data = r$d_fil,
         palette_colors = c("#22776A", "#43A292", "#0B5D78", "#2A819C", "#84CDE4", "#A7A6A6", "#575756"),
         na_color = "#dddddd",
-        hor_title = " ",
-        ver_title = " ",
-        orientation = "hor",
+        #hor_title = " ",
+        #ver_title = " ",
+        #orientation = "hor",
         drop_na = TRUE,
         title = title_viz(),
         caption = caption_viz(),
         #drop_na_
         background_color = "#fafafa",
         format_sample_num = format_sample_num,
+        tooltip = "{label}",
         title_size = 15,
         title_align = "center",
         title_color = "#0F0F0F",
@@ -129,8 +126,10 @@ mod_load_viz_server <- function(id, r){
         if (is.null(r$active_viz)) return()
         if (is.null(r$v_type)) return()
         library(hgchmagic)
+        suppressWarnings(
         do.call(eval(parse(text=r$v_type)),
                 viz_opts()
+        )
         )
       },
       error = function(cond) {
@@ -153,7 +152,7 @@ mod_load_viz_server <- function(id, r){
     output$table_dt <- DT::renderDataTable({
       if (r$active_viz != "table") return()
       req(r$d_fil)
-      df <- r$d_fil
+      df <- r$d_fil %>% dplyr::select(-label)
       dtable <- DT::datatable(df,
                               rownames = F,
                               selection = 'none',

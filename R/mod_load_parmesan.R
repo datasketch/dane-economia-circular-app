@@ -27,7 +27,6 @@ mod_load_parmesan_server <- function(id, r){
       req(r$quest_choose)
       req(r$varViewId)
       df <- indiceDane %>% dplyr::filter(id %in% r$quest_choose, idIndicador %in% r$varViewId)
-        print(df)
       df
     })
     
@@ -77,26 +76,20 @@ mod_load_parmesan_server <- function(id, r){
     
     
     selec_opts <- reactive({
-      req(r$varViewId)
-      df <- indiceDane %>% dplyr::filter(idIndicador %in% r$varViewId)
-      #print(df)
-      if(all(is.na(df$variables))) return()
-      unique(df$variables)
-      
+      req(r$d_sel)
+      df <- r$d_sel
+      ch <- NULL
+      if ("Variable" %in% names(df)) {
+        ch <- unique(df$Variable)
+      }
+      ch
     })
-    
+  
     selec_opts_def <- reactive({
-      req(selec_opts())
+      if (is.null(selec_opts())) return()
       selec_opts()[1]
     })
     
-    varNumOps <- reactive({
-      if (is.null(r$selViewId)) return()
-      req(r$varViewId)
-      df <- indiceDane %>% dplyr::filter(idIndicador %in% r$varViewId,
-                                         variables %in% r$selViewId)
-      unique(df$variables_cantidad)
-    })
     
     # Initialize parmesan
     path <- app_sys("app/app_config/parmesan")

@@ -13,6 +13,7 @@ RoxygenNote: 7.2.1
 Imports: 
     dsmodules (>= 0.5.6),
     DT,
+    EcotoneFinder,
     golem,
     hgchmagic (>= 1.0.0),
     lfltmagic (>= 0.1.0),

@@ -32,7 +32,9 @@ mod_download_viz_server <- function(id, r){
     })
     
     observe({
-      dsmodules::downloadTableServer("dropdown_table", element = reactive(r$d_sel), formats = c("csv", "xlsx", "json"))
+      req(r$d_sel)
+      df <- r$d_sel %>% dplyr::select(-formatNum, -label)
+      dsmodules::downloadTableServer("dropdown_table", element = reactive(df), formats = c("csv", "xlsx", "json"))
       dsmodules::downloadImageServer("download_viz", element = reactive(r$downViz), lib = "highcharter", formats = c("jpeg", "pdf", "png", "html"), file_prefix = "plot")
     })
     

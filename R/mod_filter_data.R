@@ -28,11 +28,10 @@ mod_filter_data_server <- function(id, r){
         } else {
           req(r$quest_choose)
           req(r$varViewId)
-          req(r$selViewId)
-          varNumId <- r$varNumId
+          #req(r$selViewId)
+          
           df <- r$d_sel
           
-        
           ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
           dicFilters <- indiceDane %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(variables)
           dicFilters$temV <- make.names(dicFilters$variables)
@@ -49,10 +48,29 @@ mod_filter_data_server <- function(id, r){
               df
             } 
           })
-          
+      
+          idUn <- grep("Unidad", names(df))
+          if (!identical(idUn, integer())) {
+            df <- df[,-idUn]
+          }
+          idFor <- grep("formatNum", names(df))
+          if (!identical(idFor, integer())) {
+            df <- df[,-idFor]
+          }
        
-          df <- df[,c(r$selViewId, varNumId)]
-
+          if (ncol(df) <= 3) {
+            df <- df %>% dplyr::select("Año", dplyr::everything())
+          } else {
+            if (!is.null(r$selViewId)) {
+              if ("Variable" %in% names(df)) {
+              df <- df %>% dplyr::filter(Variable %in% r$selViewId)
+              df <- df %>% dplyr::select(-Variable)
+              }
+            }
+            df <- EcotoneFinder::arrange.vars(df, vars =c("Año" = 2))
+          }
+          
+ 
           df
         }
       },

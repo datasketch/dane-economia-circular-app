@@ -3,5 +3,4 @@ filtros:
   inputs:
     - varViewId
     - selViewId
-    - varNumId
 

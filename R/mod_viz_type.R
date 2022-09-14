@@ -27,11 +27,11 @@ mod_viz_type_server <- function(id, r){
         req(r$active_viz)
         df <- r$d_fil
         tv <- "CatNum"
-        if (ncol(df) == 3) tv <- "CatCatNum"
+        if (ncol(df) == 4) tv <- "CatCatNum"
         if (sum(grepl("Año",names(df)))>0) {
           if (r$active_viz == "line") {
           tv <- "YeaNum"
-          if (ncol(df) == 3) tv <- "CatYeaNum"
+          if (ncol(df) == 4) tv <- "CatYeaNum"
           }
         }
         tv
