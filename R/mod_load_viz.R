@@ -93,8 +93,9 @@ mod_load_viz_server <- function(id, r){
         legend_verticalAlign = "top",
         legend_maxHeight = 100,
         marker_radius = 3,
-        dataLabels_size = 11,
+        dataLabels_size = 10,
         dataLabels_show = TRUE,
+        dataLabels_align = "bottom",
         #sort = "desc", ##dbd9d9 grid color
         grid_x_width = 0
         

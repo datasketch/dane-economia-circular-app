@@ -43,7 +43,7 @@ mod_filter_data_server <- function(id, r){
             if(!is.null(r[[ids]])) {
               varS <- make.names(r[[ids]])
               varF <- dicFilters %>% dplyr::filter(temV %in% ids) 
-              indR <- grep(paste0(varS, collapse = "|"), make.names(df[[unique(varF$variables)]]))
+              indR <- grep(paste0("^",varS, "$", collapse = "|"), make.names(df[[unique(varF$variables)]]))
               df <<- df[indR,]
               df
             } 
