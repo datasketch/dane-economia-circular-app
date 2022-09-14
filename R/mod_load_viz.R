@@ -62,8 +62,10 @@ mod_load_viz_server <- function(id, r){
     }
       df <- r$d_fil
       df[[grep("Valor", names(df))]] <- round(df[[grep("Valor", names(df))]], 1)
+      dataLabels_inside <- FALSE
       if (r$active_viz == "treemap") {
       df <- EcotoneFinder::arrange.vars(df, vars =c("Año" = 1))
+      dataLabels_inside <- TRUE
       }
       
       opts_viz <- list(
@@ -95,7 +97,9 @@ mod_load_viz_server <- function(id, r){
         marker_radius = 3,
         dataLabels_size = 10,
         dataLabels_show = TRUE,
-        dataLabels_align = "bottom",
+        dataLabels_inside = dataLabels_inside,
+        #dataLabels_align = "bottom",
+        spline = T,
         #sort = "desc", ##dbd9d9 grid color
         grid_x_width = 0
         
