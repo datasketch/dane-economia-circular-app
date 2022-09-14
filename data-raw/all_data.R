@@ -1,15 +1,9 @@
 library(googlesheets4)
 library(tidyverse)
 
-indiceDane <- read_sheet("https://docs.google.com/spreadsheets/d/1mMJAoyptnpatVmdJW--yJG0Axly0U59B5ttow_rVZAg/edit#gid=0")
-indiceDane <- indiceDane %>% filter(is.na(Eliminar))
-indiceDane$idIndicador <- indiceDane %>% group_by(`Nombre hoja`)%>% group_indices(`Nombre hoja`)
+indiceDane <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y", sheet = "indice")
+indiceDane <- indiceDane %>% group_by(`Nombre hoja`)%>% mutate(idIndicador = cur_group_id())
 indiceDane$idIndicador <- paste0(indiceDane$id, indiceDane$idIndicador)
-indiceDane <- indiceDane %>% rename(c("indicador_general" = "Filtro 1",
-                                      "indicador" = "Indicadores de interés", 
-                                      "variables" = "Variables a visualizar",
-                                      "variables_cantidad" = "Variable cantidad"))
-
 usethis::use_data(indiceDane, overwrite = TRUE)
 
 #"demanda"      "conservacion" "presion"      "factores" 
@@ -20,7 +14,7 @@ demanda <- indiceDane %>% filter(id %in% "demanda")
 ls <- purrr::map(unique(demanda$idIndicador), function (i) {
 
   fd <- demanda %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
-  df <- read_sheet("https://docs.google.com/spreadsheets/d/1s3RPwgNdPrTVq0kARqZwTSoKzk-8jGC5Ed2_ERXJoIg/edit#gid=1909007839", sheet = fd$`Nombre hoja`, col_types = "c")
+  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y", sheet = fd$`Nombre hoja`, col_types = "c")
   print(grep("Valor", names(df)))
   if (!identical(grep("Valor", names(df)), integer())) {
     df[[grep("Valor", names(df))]] <- as.numeric(df[[grep("Valor", names(df))]])
@@ -53,7 +47,7 @@ conservacion <- indiceDane %>% filter(id %in% "conservacion")
 ls <- purrr::map(unique(conservacion$idIndicador), function (i) {
 
   fd <- conservacion %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
-  df <- read_sheet("https://docs.google.com/spreadsheets/d/1s3RPwgNdPrTVq0kARqZwTSoKzk-8jGC5Ed2_ERXJoIg/edit#gid=1909007839", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
+  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   print(grep("Valor", names(df)))
   if (!identical(grep("Valor", names(df)), integer())) {
     df[[grep("Valor", names(df))]] <- as.numeric(df[[grep("Valor", names(df))]])
@@ -80,7 +74,8 @@ presion <- indiceDane %>% filter(id %in% "presion")
 ls <- purrr::map(unique(presion$idIndicador), function (i) {
 
   fd <- presion %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
-  df <- read_sheet("https://docs.google.com/spreadsheets/d/1s3RPwgNdPrTVq0kARqZwTSoKzk-8jGC5Ed2_ERXJoIg/edit#gid=1909007839", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
+  print(fd$`Nombre hoja`)
+  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   print(grep("Valor", names(df)))
   if (!identical(grep("Valor", names(df)), integer())) {
     df[[grep("Valor", names(df))]] <- as.numeric(df[[grep("Valor", names(df))]])
@@ -106,7 +101,7 @@ factores <- indiceDane %>% filter(id %in% "factores")
 #Participación porcentual del gasto de la industria manufacturera según actividad de gestión de recursos
 ls <- purrr::map(unique(factores$idIndicador), function (i) {
   fd <- factores %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
-  df <- read_sheet("https://docs.google.com/spreadsheets/d/1s3RPwgNdPrTVq0kARqZwTSoKzk-8jGC5Ed2_ERXJoIg/edit#gid=1909007839", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
+  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   print(grep("Valor", names(df)))
   if (!identical(grep("Valor", names(df)), integer())) {
     df[[grep("Valor", names(df))]] <- as.numeric(df[[grep("Valor", names(df))]])

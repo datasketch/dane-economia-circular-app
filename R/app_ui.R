@@ -12,7 +12,7 @@ app_ui <- function(request) {
     shinypanels::panelsPage(
       shinypanels::panel(title = "FILTROS",
                          id = "azul",
-                         width = 350,
+                         width = 300,
                          body = div(
                            p(class = "titles-buttons", "Seleccione componente"),
                            div(style = "max-height: 300px !important; overflow: auto; margin-bottom: 0px;",

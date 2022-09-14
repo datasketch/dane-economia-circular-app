@@ -21,7 +21,7 @@ html, body {
 .titles-buttons {
   font-size: 14px;
   font-weight: 400;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
 #load_viz_ui_1-viz_print {
@@ -51,7 +51,7 @@ font-family: Roboto;
 
 .needed {
  margin-bottom: 9px;
- max-width: 95%;
+ max-width: 100%;
  text-align: left;
  white-space: normal;
  width: 100%;

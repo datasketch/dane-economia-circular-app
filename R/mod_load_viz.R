@@ -61,6 +61,7 @@ mod_load_viz_server <- function(id, r){
       format_sample_num <- "1.234,5"
     }
       df <- r$d_fil
+      df[[grep("Valor", names(df))]] <- round(df[[grep("Valor", names(df))]], 1)
       if (r$active_viz == "treemap") {
       df <- EcotoneFinder::arrange.vars(df, vars =c("Año" = 1))
       }
@@ -91,7 +92,8 @@ mod_load_viz_server <- function(id, r){
         legend_align = "center",
         legend_verticalAlign = "top",
         legend_maxHeight = 100,
-        marker_radius = 7,
+        marker_radius = 3,
+        dataLabels_size = 11,
         dataLabels_show = TRUE,
         #sort = "desc", ##dbd9d9 grid color
         grid_x_width = 0
@@ -180,13 +182,13 @@ mod_load_viz_server <- function(id, r){
     })
     
     output$viz_print <- renderUI({
-      if (is.null(r$active_viz)) return("No hay datos disponibles")
+      if (is.null(r$active_viz)) return()
       if (r$active_viz == "table") {
-        DT::dataTableOutput(ns("table_dt"), width = 920)
+        DT::dataTableOutput(ns("table_dt"), width = 700)
       } else if (r$active_viz == "map") {
-        leaflet::leafletOutput(ns("viz_lflt"), height = 600)
+        leaflet::leafletOutput(ns("viz_lflt"), height = 650)
       } else {
-        highcharter::highchartOutput(ns("viz_hgch"), height = 600)
+        highcharter::highchartOutput(ns("viz_hgch"), height = 650)
       }
       
     })
