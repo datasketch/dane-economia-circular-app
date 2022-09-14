@@ -60,10 +60,13 @@ mod_load_viz_server <- function(id, r){
     if (any(grepl("porcentaje",tolower(names(r$d_fil))))) {
       format_sample_num <- "1.234,5"
     }
-      #print(r$d_fil)
+      df <- r$d_fil
+      if (r$active_viz == "treemap") {
+      df <- EcotoneFinder::arrange.vars(df, vars =c("Año" = 1))
+      }
       
       opts_viz <- list(
-        data = r$d_fil,
+        data = df,
         palette_colors = c("#22776A", "#43A292", "#0B5D78", "#2A819C", "#84CDE4", "#A7A6A6", "#575756"),
         na_color = "#dddddd",
         #hor_title = " ",
