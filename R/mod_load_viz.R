@@ -163,6 +163,8 @@ mod_load_viz_server <- function(id, r){
       if (r$active_viz != "table") return()
       req(r$d_fil)
       df <- r$d_fil %>% dplyr::select(-label)
+      df[[grep("Valor", names(df))]] <- format(df[[grep("Valor", names(df))]],  decimal.mark = ",", big.mark  = ".")
+      
       dtable <- DT::datatable(df,
                               rownames = F,
                               selection = 'none',
