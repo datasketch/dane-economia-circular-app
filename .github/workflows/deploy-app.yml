@@ -17,5 +17,5 @@ jobs:
           Rscript -e "install.packages('usethis', dependencies=TRUE)"
           Rscript -e "install.packages('rsconnect')"
       - name: Deploy
-        run: echo "SHINY_ACC_NAME= ${{secrets.SHINY_ACC_NAME}}\nTOKEN=${{secrets.TOKEN}}\nSECRET=${{secrets.SECRET}}" > .Renviron && Rscript deploy.R
+        run: echo "SHINY_ACC_NAME= ${{secrets.SHINY_ACC_NAME}}\nTOKEN=${{secrets.TOKEN}}\nSECRET=${{secrets.SECRET}}" > .Renviron && Rscript --no-save deploy.R
  
