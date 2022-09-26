@@ -1,7 +1,8 @@
 library(googlesheets4)
 library(tidyverse)
 
-indiceDane <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y", sheet = "indice")
+gs4_deauth()
+indiceDane <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = "indice")
 indiceDane <- indiceDane %>% group_by(`Nombre hoja`)%>% mutate(idIndicador = cur_group_id())
 indiceDane$idIndicador <- paste0(indiceDane$id, indiceDane$idIndicador)
 usethis::use_data(indiceDane, overwrite = TRUE)
@@ -14,7 +15,7 @@ demanda <- indiceDane %>% filter(id %in% "demanda")
 ls <- purrr::map(unique(demanda$idIndicador), function (i) {
 
   fd <- demanda %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
-  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y", sheet = fd$`Nombre hoja`, col_types = "c")
+  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c")
   print(grep("Valor", names(df)))
   if (!identical(grep("Valor", names(df)), integer())) {
     df[[grep("Valor", names(df))]] <- as.numeric(df[[grep("Valor", names(df))]])
@@ -47,7 +48,7 @@ conservacion <- indiceDane %>% filter(id %in% "conservacion")
 ls <- purrr::map(unique(conservacion$idIndicador), function (i) {
 
   fd <- conservacion %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
-  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
+  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   print(grep("Valor", names(df)))
   if (!identical(grep("Valor", names(df)), integer())) {
     df[[grep("Valor", names(df))]] <- as.numeric(df[[grep("Valor", names(df))]])
@@ -75,7 +76,7 @@ ls <- purrr::map(unique(presion$idIndicador), function (i) {
 
   fd <- presion %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
   print(fd$`Nombre hoja`)
-  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
+  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   print(grep("Valor", names(df)))
   if (!identical(grep("Valor", names(df)), integer())) {
     df[[grep("Valor", names(df))]] <- as.numeric(df[[grep("Valor", names(df))]])
@@ -101,7 +102,7 @@ factores <- indiceDane %>% filter(id %in% "factores")
 #Participación porcentual del gasto de la industria manufacturera según actividad de gestión de recursos
 ls <- purrr::map(unique(factores$idIndicador), function (i) {
   fd <- factores %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
-  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
+  df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   print(grep("Valor", names(df)))
   if (!identical(grep("Valor", names(df)), integer())) {
     df[[grep("Valor", names(df))]] <- as.numeric(df[[grep("Valor", names(df))]])

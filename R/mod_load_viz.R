@@ -44,14 +44,14 @@ mod_load_viz_server <- function(id, r){
       } else {
     
       tx <- tx %>% dplyr::filter(variables %in% names(r$d_fil))
-      tx <- unique(tx$`Nota del indicador`)
+      tx <- unique(tx$`Nota del indicador`)[1]
       }
       tx
     })
     
     
     viz_opts <- reactive({
-    
+      req(r$d_fil)
       if (is.null(r$active_viz)) return()
       #req(r$varNumId)
      
@@ -64,7 +64,7 @@ mod_load_viz_server <- function(id, r){
       df[[grep("Valor", names(df))]] <- round(df[[grep("Valor", names(df))]], 1)
       dataLabels_inside <- FALSE
       if (r$active_viz == "treemap") {
-      df <- EcotoneFinder::arrange.vars(df, vars =c("Año" = 1))
+      df <- EcotoneFinder::arrange.vars(df, vars = c("Año" = 1))
       dataLabels_inside <- TRUE
       }
       

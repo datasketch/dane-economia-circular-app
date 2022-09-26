@@ -81,7 +81,8 @@ mod_load_parmesan_server <- function(id, r){
       req(r$d_sel)
       df <- r$d_sel
       ch <- NULL
-      if ("Variable" %in% names(df)) {
+      #vARIABLE CAMBIAR
+      if ("Variable asociada" %in% names(df)) {
         ch <- unique(df$Variable)
       }
       ch
