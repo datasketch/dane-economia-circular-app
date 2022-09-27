@@ -2,7 +2,7 @@ name: deploy App
 on:
   schedule:
     - cron: '*/5 * * * *'
-jobs:   
+jobs:
   build_and_deploy:
     runs-on: ubuntu-20.04
     steps:
@@ -11,22 +11,18 @@ jobs:
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
-      - uses: r-lib/actions/setup-r-dependencies@v2
-      - name: Install Deps
-        run: >
-          Rscript
-          -e "## Install binaries"
-          -e "options(pkgType = 'binary')"
-          -e "## Make sure to get the best version number possible"
-          -e "update.packages(ask = FALSE, lib.loc = .libPaths()[1])"
-          -e "remotes::install_cran(c('XML'), dependencies = TRUE)"
-      - name: Execute Script
+      - name: Run Script
         run: |
           sudo apt install -y libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libssl-dev libmagick++-dev libv8-dev  libnode-dev libudunits2-dev libgdal-dev libprotobuf-dev libjq-dev protobuf-compiler libprotobuf-dev libprotoc-dev libpoppler-cpp-dev libarchive-dev
-          Rscript -e "install.packages('usethis', dependencies=TRUE)"
           Rscript -e "install.packages('rsconnect')"
       - name: Deploy
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         run: export SHINY_ACC_NAME=${{secrets.SHINY_ACC_NAME}} && export TOKEN=${{secrets.TOKEN}} && export SECRET=${{secrets.SECRET}} && Rscript --no-save deploy.R
-        
+      - name: Commit files
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add --all
+          git commit -am "deploy app" || echo "No changes to commit" 
+          git push || echo "No changes to commit"        
         
