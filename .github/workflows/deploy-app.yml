@@ -18,7 +18,7 @@ jobs:
           needs: check
       - name: Run Script
         run: |
-          sudo apt install -y gdal-bin git-core imagemagick libcurl4-openssl-dev libgdal-dev libgeos-dev libgeos++-dev libgit2-dev libglpk-dev libgmp-dev libicu-dev libpng-dev libproj-dev libssl-dev libxml2-dev make pandoc pandoc-citeproc zlib1g-dev libmagick++-dev libpoppler-cpp-dev libudunits2-dev libarrow-dev protobuf-compiler libprotobuf-dev libjq-dev && rm -rf /var/lib/apt/lists/*
+          sudo apt install -y gdal-bin git-core imagemagick libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libcurl4-openssl-dev libgdal-dev libgeos-dev libgeos++-dev libgit2-dev libglpk-dev libgmp-dev libicu-dev libpng-dev libproj-dev libssl-dev libxml2-dev make pandoc pandoc-citeproc zlib1g-dev libmagick++-dev libpoppler-cpp-dev libudunits2-dev libarrow-dev protobuf-compiler libprotobuf-dev libjq-dev && rm -rf /var/lib/apt/lists/*
           Rscript -e "install.packages('rsconnect')"
       - name: Deploy
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
