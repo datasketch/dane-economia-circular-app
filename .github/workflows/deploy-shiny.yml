@@ -1,18 +1,21 @@
-# This is a basic workflow that is manually triggered
-
 name: deploy-shiny
 on:
   schedule:
     - cron: '*/5 * * * *'
 jobs:
-  deploy-shiny:
-    runs-on: macOS-latest
+  build_and_deploy:
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@master
-      - name: Install shiny
+      - uses: actions/checkout@v3
+      - uses: fregante/setup-git-user@v1
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - name: Run Script
         run: |
-          install.packages(c("shiny", "rsconnect"), type = "binary")
+          sudo apt install -y libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libssl-dev libmagick++-dev libv8-dev  libnode-dev libudunits2-dev libgdal-dev libprotobuf-dev libjq-dev protobuf-compiler libprotobuf-dev libprotoc-dev libpoppler-cpp-dev libarchive-dev
+          Rscript -e "install.packages('usethis', dependencies=TRUE)"
+          Rscript -e "install.packages(c('shiny', 'rsconnect'), type = "binary")"
         shell: Rscript {0}
       - name: Push to shiny.io 
         run: | 
