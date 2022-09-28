@@ -14,5 +14,5 @@ setAccountInfo(name = error_on_missing_name("SHINY_ACC_NAME"),
 # Deploy the application.
 deployApp(forceUpdate = TRUE,
           appName = "daneApp",
-          appFiles = setdiff(list.files(), "renv")
+          appFiles = setdiff(list.files())
          )
