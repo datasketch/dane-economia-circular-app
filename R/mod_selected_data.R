@@ -25,18 +25,8 @@ mod_selected_data_server <- function(id, r){
       req(r$quest_choose)
       req(r$varViewId)
       #print(r$varViewId)
-      df <- NULL
-      if (r$quest_choose == "demanda") {
-       df <- dataDemanda[[r$varViewId]]
-      } else if (r$quest_choose == "factores") {
-      df <- dataFactores[[r$varViewId]]
-      } else if (r$quest_choose == "conservacion") {
-      df <- dataConservacion[[r$varViewId]]
-      } else if (r$quest_choose == "presion") {
-      df <- dataPresion[[r$varViewId]]
-      } else {
-        return()
-      }
+      df <- readr::read_rds("https://github.com/datasketch/dane-economia-circular-app/blob/main/data/dataDane.rds?raw=true")
+      df <- df[[r$quest_choose]][[r$varViewId]]
       df
     })
     
@@ -45,7 +35,7 @@ mod_selected_data_server <- function(id, r){
       r$d_sel <- data_select()
     })
     
-
+    
     
   })
 }
