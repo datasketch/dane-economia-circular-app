@@ -29,7 +29,6 @@ ls <- purrr::map(unique(demanda$idIndicador), function (i) {
 })
 names(ls) <- unique(demanda$idIndicador)
 dataDemanda <- ls
-usethis::use_data(dataDemanda, overwrite = TRUE)
 
 # Conservacion
 conservacion <- indiceDane %>% filter(id %in% "conservacion")
@@ -53,8 +52,6 @@ ls <- purrr::map(unique(conservacion$idIndicador), function (i) {
 })
 names(ls) <- unique(conservacion$idIndicador)
 dataConservacion <- ls
-
-usethis::use_data(dataConservacion, overwrite = TRUE)
 
 
 # Presion
@@ -106,5 +103,14 @@ ls <- purrr::map(unique(factores$idIndicador), function (i) {
 names(ls) <- unique(factores$idIndicador)
 dataFactores <- ls
 
-usethis::use_data(dataFactores, overwrite = TRUE)
+dataDane <- list(
+  demanda = dataDemanda,
+  conservacion = dataConservacion,
+  presion = dataPresion, 
+  factores = dataFactores
+)
+
+
+
+saveRDS(dataDane, "data/dataDane.rds")
 
