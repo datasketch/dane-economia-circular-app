@@ -24,10 +24,10 @@ mod_load_parmesan_server <- function(id, r){
     
     
     dicFilter <- reactive({
-      req(r$dic)
+      req(r$dataAll$dic)
       req(r$quest_choose)
       req(r$varViewId)
-      df <- r$dic %>% dplyr::filter(id %in% r$quest_choose, idIndicador %in% r$varViewId)
+      df <- r$dataAll$dic %>% dplyr::filter(id %in% r$quest_choose, idIndicador %in% r$varViewId)
       df
     })
     
@@ -81,9 +81,9 @@ mod_load_parmesan_server <- function(id, r){
     
     var_opts <- reactive({
       req(r$quest_choose)
-      #print(r$dic)
-      #req(r$dic)      
-      df <- r$dic %>% dplyr::filter(id %in% r$quest_choose) %>% dplyr::distinct(idIndicador, indicador)
+      #print(r$dataAll$dic)
+      #req(r$dataAll$dic)      
+      df <- r$dataAll$dic %>% dplyr::filter(id %in% r$quest_choose) %>% dplyr::distinct(idIndicador, indicador)
       setNames(df$idIndicador, df$indicador)
       
     })

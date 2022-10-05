@@ -33,16 +33,11 @@ mod_selected_data_server <- function(id, r){
       df
     })
     
-    dic <- reactive({
-      req(r$dataAll)
-      dic <- r$dataAll$dic
-      dic %>% dplyr::select(-`No se encuentra en el dashboard`, -`mapa`)
-    })
+  
     
     
     observe({
       r$d_sel <- data_select()
-      r$dic <- dic()
     })
     
     

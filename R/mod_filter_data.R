@@ -23,21 +23,18 @@ mod_filter_data_server <- function(id, r){
     
     data_clean <- reactive({
       tryCatch({
-        
-        print(r$d_sel)
-        
         if(is.null(r$d_sel)) {
           return()
         } else {
           req(r$quest_choose)
           req(r$varViewId)
-          req(r$dic)
+          #req(r$selViewId)
           
           df <- r$d_sel
           
-          ind <- data.frame(indicador = unique(r$dic$indicador[r$dic$id %in% r$quest_choose]))
+          ind <- data.frame(indicador = unique(r$dataAll$dic$indicador[r$dataAll$dic$id %in% r$quest_choose]))
     
-          dicFilters <- r$dic %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(variables)
+          dicFilters <- r$dataAll$dic %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(variables)
           dicFilters$temV <- make.names(dicFilters$variables)
 
           
@@ -88,7 +85,7 @@ mod_filter_data_server <- function(id, r){
               df <- EcotoneFinder::arrange.vars(df, vars =c("Trimestre" = 2))
             }
           }
-       
+       print(names(df))
           df
         }
       },
@@ -100,7 +97,7 @@ mod_filter_data_server <- function(id, r){
     data_filter <- reactive({
       req(data_clean())
       df <- data_clean()
-      print(df)
+      
       idUn <- grep("Unidad", names(df)) 
       
       if (length(unique(df[[idUn]])) > 1) {
