@@ -21,19 +21,20 @@ mod_filter_data_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-    data_filter <- reactive({
+    data_clean <- reactive({
       tryCatch({
         if(is.null(r$d_sel)) {
           return()
         } else {
           req(r$quest_choose)
           req(r$varViewId)
-          #req(r$selViewId)
+          req(r$dic)
           
           df <- r$d_sel
           
-          ind <- data.frame(indicador = unique(indiceDane$indicador[indiceDane$id %in% r$quest_choose]))
-          dicFilters <- indiceDane %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(variables)
+          ind <- data.frame(indicador = unique(r$dic$indicador[r$dic$id %in% r$quest_choose]))
+    
+          dicFilters <- r$dic %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(variables)
           dicFilters$temV <- make.names(dicFilters$variables)
 
           
@@ -49,17 +50,27 @@ mod_filter_data_server <- function(id, r){
             } 
           })
       
-          idUn <- grep("Unidad", names(df))
-          if (!identical(idUn, integer())) {
-            df <- df[,-idUn]
-          }
+    
+        
           idFor <- grep("formatNum", names(df))
           if (!identical(idFor, integer())) {
             df <- df[,-idFor]
           }
-       
-          if (ncol(df) <= 3) {
-            df <- df %>% dplyr::select("Año", dplyr::everything())
+          
+          idEt <- grep("Etiqueta", names(df))
+          if (!identical(idEt, integer())) {
+            df <- df[,-idEt]
+          }
+          
+         
+          if (ncol(df) <= 4) {
+            if ("Año" %in% names(df)) {
+            df <- df %>% dplyr::select(Año, dplyr::everything())
+            }
+            if ("Trimestre" %in% names(df)) {
+              print("aqui")
+              df <- df %>% dplyr::select(Trimestre, dplyr::everything())  
+            }
           } else {
             if (!is.null(r$selViewId)) {
               if ("Variable" %in% names(df)) {
@@ -67,10 +78,14 @@ mod_filter_data_server <- function(id, r){
               df <- df %>% dplyr::select(-Variable)
               }
             }
+            if ("Año" %in% names(df)) {
             df <- EcotoneFinder::arrange.vars(df, vars =c("Año" = 2))
+            }
+            if ("Trimestre" %in% names(df)) {
+              df <- EcotoneFinder::arrange.vars(df, vars =c("Trimestre" = 2))
+            }
           }
-          
- 
+       
           df
         }
       },
@@ -79,7 +94,31 @@ mod_filter_data_server <- function(id, r){
       })
     })
     
+    data_filter <- reactive({
+      req(data_clean())
+      df <- data_clean()
+      
+      idUn <- grep("Unidad", names(df)) 
+      
+      if (length(unique(df[[idUn]])) > 1) {
+        req(r$unidadId)
+        df <- df[df[[idUn]] == r$unidadId,]
+      }
+        
+     
+      if (!identical(idUn, integer())) {
+        df <- df[,-idUn]
+      }
+      
+      print(df)
+      
+      df
+    })
+    
+    
+    
     observe({
+      r$d_cl <- data_clean()
       r$d_fil <- data_filter()
     })
     

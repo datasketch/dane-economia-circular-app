@@ -31,6 +31,9 @@ mod_viz_selection_server <- function(id, r){
       if (any(grepl("Año", names(df)))) {
         if(length(unique(df$Año)) > 1) viz <- c("line", viz)
       }
+      if (any(grepl("Trimestre", names(df)))) {
+        if(length(unique(df$Trimestre)) > 1) viz <- c("line", viz)
+      }
       # if (length(names(df)) == 2) {
       #   if (any(grepl("Departamento", names(df)))) {
       #     viz <- c(viz, "map")

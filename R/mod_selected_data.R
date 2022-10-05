@@ -21,18 +21,28 @@ mod_selected_data_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
+    
+ 
+    
     data_select <- reactive({
+      req(r$dataAll)
       req(r$quest_choose)
       req(r$varViewId)
-      #print(r$varViewId)
-      df <- readr::read_rds("https://github.com/datasketch/dane-economia-circular-app/blob/main/data/dataDane.rds?raw=true")
+      df <- r$dataAll
       df <- df[[r$quest_choose]][[r$varViewId]]
       df
+    })
+    
+    dic <- reactive({
+      req(r$dataAll)
+      dic <- r$dataAll$dic
+      dic %>% dplyr::select(-`No se encuentra en el dashboard`, -`mapa`)
     })
     
     
     observe({
       r$d_sel <- data_select()
+      r$dic <- dic()
     })
     
     

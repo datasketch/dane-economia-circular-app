@@ -28,7 +28,7 @@ mod_viz_type_server <- function(id, r){
         df <- r$d_fil
         tv <- "CatNum"
         if (ncol(df) == 4) tv <- "CatCatNum"
-        if (sum(grepl("Año",names(df)))>0) {
+        if (sum(grepl("Año|Trimestre",names(df)))>0) {
           if (r$active_viz == "line") {
           tv <- "YeaNum"
           if (ncol(df) == 4) tv <- "CatYeaNum"

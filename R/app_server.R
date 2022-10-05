@@ -19,10 +19,18 @@ app_server <- function( input, output, session ) {
     if (is.null(last_btn)) last_btn <- "demanda"
     last_btn
   })
-  
+ 
+  read_data <- reactive({
+    df <- readr::read_rds("https://github.com/datasketch/dane-economia-circular-app/blob/main/data/dataDane.rds?raw=true")
+    df
+  })
+   
   observe({
     r$quest_choose <- quest_choose()
+    r$dataAll <- read_data()
   })
+  
+ 
   
   mod_load_parmesan_server("load_parmesan_ui_1", r)
   mod_viz_selection_server("viz_selection_ui_1", r)

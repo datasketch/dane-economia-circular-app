@@ -10,7 +10,7 @@
 mod_load_viz_ui <- function(id){
   ns <- NS(id)
   tagList(
-   uiOutput(ns("viz_print"))
+    uiOutput(ns("viz_print"))
   )
 }
 
@@ -21,17 +21,17 @@ mod_load_viz_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-
+    
     
     title_viz <- reactive({
       tx <- r$titleViz
       
       if (is.null(tx)) return()
       if (nrow(tx) == 0) tx <- " "
-
+      
       tx <- tx %>% dplyr::filter(variables %in% names(r$d_fil))
       tx <- unique(tx$`Nombre gráfica`)[1]
-
+      
       tx
     })
     
@@ -42,9 +42,9 @@ mod_load_viz_server <- function(id, r){
       if (nrow(tx) == 0) {
         tx <- " "
       } else {
-    
-      tx <- tx %>% dplyr::filter(variables %in% names(r$d_fil))
-      tx <- unique(tx$`Nota del indicador`)[1]
+        
+        tx <- tx %>% dplyr::filter(variables %in% names(r$d_fil))
+        tx <- unique(tx$`Nota del indicador`)[1]
       }
       tx
     })
@@ -54,18 +54,23 @@ mod_load_viz_server <- function(id, r){
       req(r$d_fil)
       if (is.null(r$active_viz)) return()
       #req(r$varNumId)
-     
+      
       format_sample_num <- "1.234,"
- 
-    if (any(grepl("porcentaje",tolower(names(r$d_fil))))) {
-      format_sample_num <- "1.234,5"
-    }
+      
+      if (any(grepl("porcentaje",tolower(names(r$d_fil))))) {
+        format_sample_num <- "1.234,5"
+      }
       df <- r$d_fil
       df[[grep("Valor", names(df))]] <- round(df[[grep("Valor", names(df))]], 1)
       dataLabels_inside <- FALSE
       if (r$active_viz == "treemap") {
-      df <- EcotoneFinder::arrange.vars(df, vars = c("Año" = 1))
-      dataLabels_inside <- TRUE
+        if ("Año" %in% names(df)) {
+          df <- EcotoneFinder::arrange.vars(df, vars = c("Año" = 1))
+        }
+        if ("Trimestre" %in% names(df)) {
+          df <- EcotoneFinder::arrange.vars(df, vars = c("Trimestre" = 1))
+        }
+        dataLabels_inside <- TRUE
       }
       
       opts_viz <- list(
@@ -131,15 +136,15 @@ mod_load_viz_server <- function(id, r){
     
     r_viz <- reactive({
       #print("Esto es un ej")
-      #print(r$v_type)
+      print(r$v_type)
       tryCatch({
         if (is.null(r$active_viz)) return()
         if (is.null(r$v_type)) return()
         library(hgchmagic)
         suppressWarnings(
-        do.call(eval(parse(text=r$v_type)),
-                viz_opts()
-        )
+          do.call(eval(parse(text=r$v_type)),
+                  viz_opts()
+          )
         )
       },
       error = function(cond) {
@@ -207,7 +212,7 @@ mod_load_viz_server <- function(id, r){
     
     
     
-     
+    
   })
 }
 

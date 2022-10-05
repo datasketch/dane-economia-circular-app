@@ -1,4 +1,13 @@
 ---
+unidadId:
+  show: true
+  show_if:
+    unidad_ch():
+      equals: true
+  input_type: selectizeInput
+  input_params:
+    label: Seleccione unidad
+    choices: unidad_opts()
 varViewId:
   show: true
   input_type: selectizeInput

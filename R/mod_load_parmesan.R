@@ -24,9 +24,10 @@ mod_load_parmesan_server <- function(id, r){
     
     
     dicFilter <- reactive({
+      req(r$dic)
       req(r$quest_choose)
       req(r$varViewId)
-      df <- indiceDane %>% dplyr::filter(id %in% r$quest_choose, idIndicador %in% r$varViewId)
+      df <- r$dic %>% dplyr::filter(id %in% r$quest_choose, idIndicador %in% r$varViewId)
       df
     })
     
@@ -38,7 +39,7 @@ mod_load_parmesan_server <- function(id, r){
           print("variable de filtro")
           print(make.names(df$variables[i]))
           nameLabel <- df$variables[i]
-          if (nameLabel != "Año") nameLabel <- "Variable"
+          if (!nameLabel %in% c("Año", "Trimestre")) nameLabel <- "Variable"
           shiny::selectizeInput(inputId = ns(make.names(df$variables[i])), 
                                 label = paste0("Filtrar ", nameLabel), 
                                 choices = setdiff(unique(r$d_sel[[df$variables[i]]]), NA),
@@ -53,7 +54,17 @@ mod_load_parmesan_server <- function(id, r){
       
     })
     
+    unidad_ch <- reactive({
+      req(r$d_cl)
+      idUn <- grep("Unidad", names(r$d_cl)) 
+      length(unique(r$d_cl[[idUn]])) > 1
+    })
     
+    unidad_opts <- reactive({
+      req(r$d_cl)
+      idUn <- grep("Unidad", names(r$d_cl)) 
+      unique(r$d_cl[[idUn]])
+    })
     
     observe({
       req(dicFilter())
@@ -70,8 +81,8 @@ mod_load_parmesan_server <- function(id, r){
     
     var_opts <- reactive({
       req(r$quest_choose)
-      
-      df <- indiceDane %>% dplyr::filter(id %in% r$quest_choose) %>% dplyr::distinct(idIndicador, indicador)
+      req(r$dic)      
+      df <- r$dic %>% dplyr::filter(id %in% r$quest_choose) %>% dplyr::distinct(idIndicador, indicador)
       setNames(df$idIndicador, df$indicador)
       
     })
@@ -82,7 +93,9 @@ mod_load_parmesan_server <- function(id, r){
       df <- r$d_sel
       ch <- NULL
       #vARIABLE CAMBIAR
-      if ("Variable asociada" %in% names(df)) {
+      
+      vars <- grep("Variable asociada|Departamento", names(df))
+      if (!identical(vars, integer())) {
         ch <- unique(df$Variable)
       }
       ch
