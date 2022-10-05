@@ -5,7 +5,6 @@ gs4_deauth()
 indiceDane <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = "indice")
 indiceDane <- indiceDane %>% group_by(`Nombre hoja`)%>% mutate(idIndicador = cur_group_id())
 indiceDane$idIndicador <- paste0(indiceDane$id, indiceDane$idIndicador)
-usethis::use_data(indiceDane, overwrite = TRUE)
 
 demanda <- indiceDane %>% filter(id %in% "demanda")
 
@@ -104,6 +103,7 @@ names(ls) <- unique(factores$idIndicador)
 dataFactores <- ls
 
 dataDane <- list(
+  dic = indiceDane,
   demanda = dataDemanda,
   conservacion = dataConservacion,
   presion = dataPresion, 
