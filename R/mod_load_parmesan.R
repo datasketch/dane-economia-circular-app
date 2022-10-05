@@ -39,7 +39,7 @@ mod_load_parmesan_server <- function(id, r){
           print("variable de filtro")
           print(make.names(df$variables[i]))
           nameLabel <- df$variables[i]
-          if (!nameLabel %in% c("Año", "Trimestre")) nameLabel <- "Variable"
+          if (!nameLabel %in% c("Año", "Trimestre", "Departamento")) nameLabel <- "Variable"
           shiny::selectizeInput(inputId = ns(make.names(df$variables[i])), 
                                 label = paste0("Filtrar ", nameLabel), 
                                 choices = setdiff(unique(r$d_sel[[df$variables[i]]]), NA),
