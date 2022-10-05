@@ -23,6 +23,9 @@ mod_filter_data_server <- function(id, r){
     
     data_clean <- reactive({
       tryCatch({
+        
+        print(r$d_sel)
+        
         if(is.null(r$d_sel)) {
           return()
         } else {
@@ -97,7 +100,7 @@ mod_filter_data_server <- function(id, r){
     data_filter <- reactive({
       req(data_clean())
       df <- data_clean()
-      
+      print(df)
       idUn <- grep("Unidad", names(df)) 
       
       if (length(unique(df[[idUn]])) > 1) {

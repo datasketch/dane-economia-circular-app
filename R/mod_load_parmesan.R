@@ -81,7 +81,8 @@ mod_load_parmesan_server <- function(id, r){
     
     var_opts <- reactive({
       req(r$quest_choose)
-      req(r$dic)      
+      #print(r$dic)
+      #req(r$dic)      
       df <- r$dic %>% dplyr::filter(id %in% r$quest_choose) %>% dplyr::distinct(idIndicador, indicador)
       setNames(df$idIndicador, df$indicador)
       
