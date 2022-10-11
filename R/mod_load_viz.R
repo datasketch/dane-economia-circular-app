@@ -52,11 +52,16 @@ mod_load_viz_server <- function(id, r){
 
     viz_opts <- reactive({
       req(r$d_viz)
+      req(r$dic_var)
       if (is.null(r$active_viz)) return()
       #req(r$varNumId)
 
-      format_sample_num <- "1.234,"
-
+      nDec <- as.numeric(unique(r$dic_var$num_dic))
+      if (is.null(nDec)) nDec <- 0
+      format_sample_num <- paste0("1.234,", paste0(1:nDec,collapse = ""))
+      unidad <- grep("Unidad", names(r$d_cl))
+      verTitle <- unique(r$d_cl[[unidad]])
+      if (length(verTitle) > 1) verTitle <- r$unidadId
       # if (any(grepl("porcentaje",tolower(names(r$d_fil))))) {
       #   format_sample_num <- "1.234,5"
       # }
@@ -78,7 +83,7 @@ mod_load_viz_server <- function(id, r){
         palette_colors = c("#22776A", "#43A292", "#0B5D78", "#2A819C", "#84CDE4", "#A7A6A6", "#575756"),
         na_color = "#dddddd",
         #hor_title = " ",
-        #ver_title = " ",
+        ver_title = verTitle,
         #orientation = "hor",
         drop_na = TRUE,
         title = title_viz(),
@@ -166,34 +171,34 @@ mod_load_viz_server <- function(id, r){
 
     
     output$table_dt <- DT::renderDataTable({
-      req(r$d_viz)
-      DT::datatable(r$d_viz)
-      # if (r$active_viz != "table") return()
-      # req(r$d_fil)
-      # df <- r$d_fil %>% dplyr::select(-label)
-      # df[[grep("Valor", names(df))]] <- format(df[[grep("Valor", names(df))]],  decimal.mark = ",", big.mark  = ".")
-      # 
-      # dtable <- DT::datatable(df,
-      #                         rownames = F,
-      #                         selection = 'none',
-      #                         options = list(
-      #                           #autoWidth = TRUE,
-      #                           language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'),
-      #                           #                        lengthChange = F,
-      #                           #                        pageLength = 4,
-      #                           scrollX = T,
-      #                           fixedColumns = TRUE,
-      #                           fixedHeader = TRUE,
-      #                           scrollY = "500px"#,
-      #                           #                        initComplete = htmlwidgets::JS(
-      #                           #                          "function(settings, json) {",
-      #                           #                          "$(this.api().table().header()).css({'background-color': '#a13e1f', 'color': '#fff'});",
-      #                           #                          "}")
-      #                           #                      )) %>%
-      #                           # DT::formatStyle( 0 , target= 'row',color = '#0A446B', fontSize ='13px', lineHeight='15px')
-      #                           
-      #                         ))
-      # dtable
+      req(r$d_fil)
+      DT::datatable(r$d_fil)
+      if (r$active_viz != "table") return()
+      req(r$d_fil)
+      df <- r$d_fil %>% dplyr::select(-label)
+      #df[[grep("Valor", names(df))]] <- format(df[[grep("Valor", names(df))]],  decimal.mark = ",", big.mark  = ".")
+
+      dtable <- DT::datatable(df,
+                              rownames = F,
+                              selection = 'none',
+                              options = list(
+                                #autoWidth = TRUE,
+                                language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'),
+                                #                        lengthChange = F,
+                                #                        pageLength = 4,
+                                scrollX = T,
+                                fixedColumns = TRUE,
+                                fixedHeader = TRUE,
+                                scrollY = "500px"#,
+                                #                        initComplete = htmlwidgets::JS(
+                                #                          "function(settings, json) {",
+                                #                          "$(this.api().table().header()).css({'background-color': '#a13e1f', 'color': '#fff'});",
+                                #                          "}")
+                                #                      )) %>%
+                                # DT::formatStyle( 0 , target= 'row',color = '#0A446B', fontSize ='13px', lineHeight='15px')
+
+                              ))
+      dtable
     })
     
     output$viz_print <- renderUI({
