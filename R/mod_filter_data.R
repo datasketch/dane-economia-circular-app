@@ -50,7 +50,7 @@ mod_filter_data_server <- function(id, r){
           print(r$varViewId)
           print("###########")
           dicFilters <- r$dataAll$dic %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(variables)
-          print(dicFilters)
+          #print(dicFilters)
           dicFilters$temV <- make.names(dicFilters$variables)
           
           

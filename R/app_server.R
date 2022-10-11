@@ -21,7 +21,7 @@ app_server <- function( input, output, session ) {
   })
  
   read_data <- reactive({
-    df <- readr::read_rds("data/dataDane.rds")#readr::read_rds("https://github.com/datasketch/dane-economia-circular-app/blob/main/data/dataDane.rds?raw=true")
+    df <- readr::read_rds("https://github.com/datasketch/dane-economia-circular-app/blob/main/data/dataDane.rds?raw=true")
     df
   })
    

@@ -29,7 +29,7 @@ mod_viz_selection_server <- function(id, r){
       req(names(df))
       
       viz <- c("line", "bar", "treemap")
-      if (!any(grepl("Año|Trimestre", names(df)))) viz <- setdiff("line", viz)
+      if (!any(grepl("Año|Trimestre", names(df)))) viz <- c("bar", "treemap")
       if (length(names(df)) == 3) {
         if (any(grepl("Departamento", names(df)))) {
           viz <- c(viz, "map")
