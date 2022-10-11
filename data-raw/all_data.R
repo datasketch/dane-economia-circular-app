@@ -29,8 +29,9 @@ demanda <- indiceDane %>% filter(id %in% "demanda")
 ls <- purrr::map(unique(demanda$idIndicador), function (i) {
   fd <- demanda %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
   valor <- unique(fd$variables_cantidad)
-  num_dec <- unique(fd$num_dic %>% unlist())[1]
+  num_dec <- unique(fd$num_dic)[1]
   if (is.null(num_dec)) num_dec <- 1
+  print(num_dec)
   print(fd$`Nombre hoja`)
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c")
   names(df) <- gsub("\\(|\\)", "", names(df))
@@ -50,7 +51,7 @@ ls <- purrr::map(unique(conservacion$idIndicador), function (i) {
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   names(df) <- gsub("\\(|\\)", "", names(df))
   valor <- unique(fd$variables_cantidad)
-  num_dec <- unique(fd$num_dic %>% unlist())[1]
+  num_dec <- unique(fd$num_dic)[1]
   if (is.null(num_dec)) num_dec <- 1
   print(grep(valor, names(df)))
   df <- label_df(valor, num_dec, df)
@@ -70,7 +71,7 @@ ls <- purrr::map(unique(presion$idIndicador), function (i) {
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   names(df) <- gsub("\\(|\\)", "", names(df))
   valor <- unique(fd$variables_cantidad)
-  num_dec <- unique(fd$num_dic %>% unlist())[1]
+  num_dec <- unique(fd$num_dic)[1]
   if (is.null(num_dec)) num_dec <- 1
   print(grep(valor, names(df)))
   df <- label_df(valor, num_dec, df)
@@ -90,7 +91,7 @@ ls <- purrr::map(unique(factores$idIndicador), function (i) {
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   names(df) <- gsub("\\(|\\)", "", names(df))
   valor <- unique(fd$variables_cantidad)
-  num_dec <- unique(fd$num_dic %>% unlist())[1]
+  num_dec <- unique(fd$num_dic)[1]
   if (is.null(num_dec)) num_dec <- 1
   print(grep(valor, names(df)))
   df <- label_df(valor, num_dec, df)
