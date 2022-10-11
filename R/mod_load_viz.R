@@ -58,7 +58,11 @@ mod_load_viz_server <- function(id, r){
 
       nDec <- as.numeric(unique(r$dic_var$num_dic))
       if (is.null(nDec)) nDec <- 0
-      format_sample_num <- paste0("1.234,", paste0(1:nDec,collapse = ""))
+      format_sample_num <- "1.234,"
+      if (nDec != 0) {
+        format_sample_num <- paste0("1.234,", paste0(1:nDec,collapse = ""))  
+      }
+      
       unidad <- grep("Unidad", names(r$d_cl))
       verTitle <- unique(r$d_cl[[unidad]])
       if (length(verTitle) > 1) verTitle <- r$unidadId
