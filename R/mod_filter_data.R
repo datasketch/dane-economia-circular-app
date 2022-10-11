@@ -31,10 +31,26 @@ mod_filter_data_server <- function(id, r){
           #req(r$selViewId)
           
           df <- r$d_sel
+         
+          
+          # if ("Variable asociada" %in% names(df)) {
+          #   df <- df[,-grep("Variable asociada", names(df))]
+          # }
+          print(names(df))
+          # print(names(df))
+          # print(grep("año", tolower(names(df))))
+          # if (any(grepl("año", tolower(names(df))))) {
+          #   if (length(unique(df[[grep("año", tolower(names(df)))[1]]])) ==1) {
+          #     df <- df[,-grep("año", tolower(names(df)))[1]]
+          #   }
+          # }
           
           ind <- data.frame(indicador = unique(r$dataAll$dic$indicador[r$dataAll$dic$id %in% r$quest_choose]))
-          
+          print("###########")
+          print(r$varViewId)
+          print("###########")
           dicFilters <- r$dataAll$dic %>% dplyr::filter( idIndicador %in% r$varViewId) %>% tidyr::drop_na(variables)
+          print(dicFilters)
           dicFilters$temV <- make.names(dicFilters$variables)
           
           
@@ -110,7 +126,7 @@ mod_filter_data_server <- function(id, r){
         df <- df[,-idUn]
       }
       
-      # print(df)
+      print(df)
       # 
       df
     })

@@ -61,7 +61,7 @@ mod_load_viz_server <- function(id, r){
         format_sample_num <- "1.234,5"
       }
       df <- r$d_fil
-      df[[grep("Valor", names(df))]] <- round(df[[grep("Valor", names(df))]], 1)
+      # df[[grep("Valor", names(df))]] <- round(df[[grep("Valor", names(df))]], 1)
       dataLabels_inside <- FALSE
       if (r$active_viz == "treemap") {
         if ("Año" %in% names(df)) {
