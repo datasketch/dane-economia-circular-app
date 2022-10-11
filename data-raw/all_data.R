@@ -9,7 +9,6 @@ indiceDane <- indiceDane %>% rename("num_dic" = `Número de decimales en el índ
 indiceDane <- indiceDane %>% drop_na(variables)
 indiceDane$variables_cantidad <- gsub("\\(|\\)", "", indiceDane$variables_cantidad)
 
-demanda <- indiceDane %>% filter(id %in% "demanda")
 label_df <- function(valor, num_dec, df) {
   if (!identical(grep(valor, names(df)), integer())) {
     df[[grep(valor, names(df))]] <- as.numeric(df[[grep(valor, names(df))]])
@@ -25,15 +24,17 @@ label_df <- function(valor, num_dec, df) {
 }
 
 
+demanda <- indiceDane %>% filter(id %in% "demanda")
 
 ls <- purrr::map(unique(demanda$idIndicador), function (i) {
   fd <- demanda %>% filter(idIndicador %in% i) %>% distinct(indicador, .keep_all = T)
   valor <- unique(fd$variables_cantidad)
-  num_dec <- unique(fd$num_dic %>% unlist())
+  num_dec <- unique(fd$num_dic %>% unlist())[1]
   if (is.null(num_dec)) num_dec <- 1
+  print(fd$`Nombre hoja`)
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c")
   names(df) <- gsub("\\(|\\)", "", names(df))
-  print(grep(valor, names(df)))
+  
   df <- label_df(valor, num_dec, df)
   print(df)
   df
@@ -49,7 +50,7 @@ ls <- purrr::map(unique(conservacion$idIndicador), function (i) {
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   names(df) <- gsub("\\(|\\)", "", names(df))
   valor <- unique(fd$variables_cantidad)
-  num_dec <- unique(fd$num_dic %>% unlist())
+  num_dec <- unique(fd$num_dic %>% unlist())[1]
   if (is.null(num_dec)) num_dec <- 1
   print(grep(valor, names(df)))
   df <- label_df(valor, num_dec, df)
@@ -69,7 +70,7 @@ ls <- purrr::map(unique(presion$idIndicador), function (i) {
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   names(df) <- gsub("\\(|\\)", "", names(df))
   valor <- unique(fd$variables_cantidad)
-  num_dec <- unique(fd$num_dic %>% unlist())
+  num_dec <- unique(fd$num_dic %>% unlist())[1]
   if (is.null(num_dec)) num_dec <- 1
   print(grep(valor, names(df)))
   df <- label_df(valor, num_dec, df)
@@ -89,7 +90,7 @@ ls <- purrr::map(unique(factores$idIndicador), function (i) {
   df <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = fd$`Nombre hoja`, col_types = "c", na = c("NA", "", "-"))
   names(df) <- gsub("\\(|\\)", "", names(df))
   valor <- unique(fd$variables_cantidad)
-  num_dec <- unique(fd$num_dic %>% unlist())
+  num_dec <- unique(fd$num_dic %>% unlist())[1]
   if (is.null(num_dec)) num_dec <- 1
   print(grep(valor, names(df)))
   df <- label_df(valor, num_dec, df)
