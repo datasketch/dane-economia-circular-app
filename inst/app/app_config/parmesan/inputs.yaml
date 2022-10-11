@@ -8,25 +8,38 @@ unidadId:
   input_params:
     label: Seleccione unidad
     choices: unidad_opts()
+varToVizId:
+  show: true
+  input_type: selectizeInput
+  input_params:
+    label: Seleccione variable a visualizar
+    choices: varToViz()  
+    multiple: true
+    selected: varTo_opts()
+    options:
+      maxItems: 2
+      plugins:
+      - - remove_button
+      - - drag_drop
 varViewId:
   show: true
   input_type: selectizeInput
   input_params:
     label: Seleccione indicador
     choices: var_opts()  
-selViewId:
-  show: true
-  input_type: selectizeInput
-  input_params:
-    label: Seleccione variable
-    choices: selec_opts()
-    multiple: true
-    selected: selec_opts_def()
-    options:
-      maxItems: 1
-      plugins:
-      - - remove_button
-      - - drag_drop
+# selViewId:
+#   show: true
+#   input_type: selectizeInput
+#   input_params:
+#     label: Seleccione variable
+#     choices: selec_opts()
+#     multiple: true
+#     selected: selec_opts_def()
+#     options:
+#       maxItems: 1
+#       plugins:
+#       - - remove_button
+#       - - drag_drop
 
 
 

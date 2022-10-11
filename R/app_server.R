@@ -36,6 +36,7 @@ app_server <- function( input, output, session ) {
   mod_viz_selection_server("viz_selection_ui_1", r)
   mod_selected_data_server("selected_data_ui_1", r)
   mod_filter_data_server("filter_data_ui_1", r)
+  mod_viz_data_server("viz_data_1", r)
   mod_viz_type_server("viz_type_ui_1", r)
   mod_load_viz_server("load_viz_ui_1", r)
   mod_download_viz_server("download_viz_ui_1", r)

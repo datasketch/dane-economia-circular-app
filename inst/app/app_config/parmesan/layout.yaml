@@ -2,6 +2,7 @@ filtros:
   label: 
   inputs:
     - varViewId
+    - varToVizId
     - unidadId
-    - selViewId
+    # - selViewId
 

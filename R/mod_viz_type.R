@@ -23,9 +23,9 @@ mod_viz_type_server <- function(id, r){
     
     viz_type <- reactive({
       tryCatch({
-        req(r$d_fil)
+        req(r$d_viz)
         req(r$active_viz)
-        df <- r$d_fil
+        df <- r$d_viz
         tv <- "CatNum"
         if (ncol(df) == 4) tv <- "CatCatNum"
         if (sum(grepl("Año|Trimestre",names(df)))>0) {

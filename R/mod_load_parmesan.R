@@ -31,19 +31,61 @@ mod_load_parmesan_server <- function(id, r){
       df
     })
     
+    
+    varToViz <- reactive({
+      req(dicFilter())
+      dic <- dicFilter()
+      if (length(unique(dic$variables)) > 2 | "Departamento" %in% dic$variables) {
+        unique(dic$variables)
+      } else {
+        return()
+      }
+    })
+    
+    varTo_opts <- reactive({
+      req(varToViz())
+      varToViz()[1:2]
+    })
+    
+    
+    
+    # output$varExtraFilter <- renderUI({
+    #   if (is.null(dicFilter())) return()
+    #   varV <- setdiff(r$varToVizId, c("Trimestre", "Departamento"))
+    #   # if (!identical(varV, character())) {
+    #   #   if (nameLabel %in% r$varToVizId) {
+    #   #     sel_var <- choices_var[1]
+    #   #   }
+    #   # }
+    # 
+    # })
+    
+    
     output$filterOptions <- renderUI({
       req(dicFilter())
+      req(r$d_sel)
       df <- dicFilter() %>% dplyr::distinct(variables, .keep_all = T)
+   
       if (nrow(df) > 0) {
         purrr::map(1:nrow(df), function(i) {
           print("variable de filtro")
           print(make.names(df$variables[i]))
           nameLabel <- df$variables[i]
+          sel_var <- NULL
+          choices_var <- setdiff(unique(r$d_sel[[df$variables[i]]]), NA)
+          if (!is.null(varToViz())) {
+            varV <- setdiff(varToViz(), c("Trimestre", "Departamento"))
+            if (!identical(varV, character())) {
+              if (nameLabel %in% varV) {
+              sel_var <- choices_var[1]
+              }
+            }
+          }
           if (!nameLabel %in% c("Año", "Trimestre", "Departamento")) nameLabel <- "Variable"
           shiny::selectizeInput(inputId = ns(make.names(df$variables[i])), 
                                 label = paste0("Filtrar ", nameLabel), 
-                                choices = setdiff(unique(r$d_sel[[df$variables[i]]]), NA),
-                                selected = NULL, multiple = TRUE, 
+                                choices = choices_var,
+                                selected = sel_var, multiple = TRUE, 
                                 options = list(placeholder = "Todos", 
                                                plugins = list(
                                                  "remove_button",
@@ -89,23 +131,23 @@ mod_load_parmesan_server <- function(id, r){
     })
     
     
-    selec_opts <- reactive({
-      req(r$d_sel)
-      df <- r$d_sel
-      ch <- NULL
-      #vARIABLE CAMBIAR
-      
-      vars <- grep("Variable asociada|Departamento", names(df))
-      if (!identical(vars, integer())) {
-        ch <- unique(df$Variable)
-      }
-      ch
-    })
-  
-    selec_opts_def <- reactive({
-      if (is.null(selec_opts())) return()
-      selec_opts()[1]
-    })
+    # selec_opts <- reactive({
+    #   req(r$d_sel)
+    #   df <- r$d_sel
+    #   ch <- NULL
+    #   #vARIABLE CAMBIAR
+    #   
+    #   vars <- grep("Variable asociada|Departamento", names(df))
+    #   if (!identical(vars, integer())) {
+    #     ch <- unique(df$Variable)
+    #   }
+    #   ch
+    # })
+    # 
+    # selec_opts_def <- reactive({
+    #   if (is.null(selec_opts())) return()
+    #   selec_opts()[1]
+    # })
     
     
     # Initialize parmesan
@@ -135,6 +177,7 @@ mod_load_parmesan_server <- function(id, r){
     
     observe({
       r$parmesan_input <- parmesan_input()
+      r$dic_var <- dicFilter()
     })
     
     

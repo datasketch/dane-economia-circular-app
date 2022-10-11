@@ -24,36 +24,34 @@ mod_viz_selection_server <- function(id, r){
     possible_viz <- reactive({
       
       
-      req(r$d_fil)
-      df <- r$d_fil
+      req(r$d_viz)
+      df <- r$d_viz
+      req(names(df))
       
-      viz <- c("bar", "treemap")
-      if (any(grepl("Año", names(df)))) {
-        if(length(unique(df$Año)) > 1) viz <- c("line", viz)
-      }
-      if (any(grepl("Trimestre", names(df)))) {
-        if(length(unique(df$Trimestre)) > 1) viz <- c("line", viz)
-      }
-      # if (length(names(df)) == 2) {
-      #   if (any(grepl("Departamento", names(df)))) {
-      #     viz <- c(viz, "map")
-      #   }}
-      #print(viz)
-      c(viz, "table") 
+      viz <- c("line", "bar", "treemap")
+      if (!any(grepl("Año|Trimestre", names(df)))) viz <- setdiff("line", viz)
+      if (length(names(df)) == 3) {
+        if (any(grepl("Departamento", names(df)))) {
+          viz <- c(viz, "map")
+        }}
       
+      c(viz, "table")
     })
     
     
     actual_but <- reactiveValues(active = NULL)
     
     observe({
-      if (is.null(input$viz_selection)) return()
+      req(possible_viz())
+      req(input$viz_selection)
       viz_rec <- possible_viz()
+      
       if (input$viz_selection %in% viz_rec) {
         actual_but$active <- input$viz_selection
       } else {
         actual_but$active <- viz_rec[1]
       }
+      
     })
     
     

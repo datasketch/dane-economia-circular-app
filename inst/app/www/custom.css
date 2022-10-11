@@ -125,3 +125,7 @@ background: #5165A9 !important;
     border: 1px solid #161616 !important;
     border-radius: 11px !important;
 }
+
+.load-container {
+  z-index: 0 !important;
+}

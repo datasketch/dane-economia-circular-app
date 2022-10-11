@@ -78,30 +78,6 @@ mod_filter_data_server <- function(id, r){
             df <- df[,-idEt]
           }
           
-          
-          if (ncol(df) <= 4) {
-            if ("Año" %in% names(df)) {
-              df <- df %>% dplyr::select(Año, dplyr::everything())
-            }
-            if ("Trimestre" %in% names(df)) {
-              df <- df %>% dplyr::select(Trimestre, dplyr::everything())  
-            }
-          } else {
-            if (!is.null(r$selViewId)) {
-              if ("Variable" %in% names(df)) {
-                df <- df %>% dplyr::filter(Variable %in% r$selViewId)
-                df <- df %>% dplyr::select(-Variable)
-              }
-            }
-            if (ncol(df) > 3) {
-              if ("Año" %in% names(df)) {
-                df <- EcotoneFinder::arrange.vars(df, vars =c("Año" = 2))
-              }
-              if ("Trimestre" %in% names(df)) {
-                df <- EcotoneFinder::arrange.vars(df, vars =c("Trimestre" = 2))
-              }
-            }
-          }
           df
         }
       },
@@ -126,8 +102,6 @@ mod_filter_data_server <- function(id, r){
         df <- df[,-idUn]
       }
       
-      print(df)
-      # 
       df
     })
     

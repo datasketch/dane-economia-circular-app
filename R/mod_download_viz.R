@@ -22,7 +22,7 @@ mod_download_viz_server <- function(id, r){
     ns <- session$ns
     
     output$descargas <- renderUI({
-      
+
       if (is.null(r$active_viz)) return()
       if (r$active_viz != "table") {
         dsmodules::downloadImageUI(ns("download_viz"), dropdownLabel ="Descargar", text = "Descargar", formats = c("jpeg", "pdf", "png", "html"), display = "dropdown")
@@ -30,7 +30,7 @@ mod_download_viz_server <- function(id, r){
         dsmodules::downloadTableUI(ns("dropdown_table"), dropdownLabel = "Descargar", text = "Descargar", formats = c("csv", "xlsx", "json"), display = "dropdown")
       }
     })
-    
+
     observe({
       req(r$d_sel)
       df <- r$d_sel %>% dplyr::select(-formatNum, -label)
