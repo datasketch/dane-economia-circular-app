@@ -119,9 +119,12 @@ mod_load_viz_server <- function(id, r){
 
       )
 
-      if (r$active_viz %in% c("treemap", "pie")) {
+      if (r$active_viz %in% c("treemap")) {
         opts_viz$legend_show <- FALSE
+        opts_viz$label_wrap_legend <- 30
         opts_viz$color_by <- names(r$d_viz)[1]
+        opts_viz$dataLabels_template = paste0("{point.name}<br/>{point.cat} {point.value:.,",nDec,"f} ", verTitle)
+        opts_viz$dataLabels_align <- "middle"
         #opts_viz$palette_type <- "sequential"
         #opts_viz$palette_colors <- c("#22776A", "#43A292", "#0B5D78","#84CDE4", "#7C7B7B", "#A7A6A6", "#D9D9D9")
       }
@@ -218,9 +221,9 @@ mod_load_viz_server <- function(id, r){
     })
     
     
-    # observe({
-    #   r$downViz <- r_viz()
-    # })
+    observe({
+      r$downViz <- r_viz()
+    })
     
     
     
