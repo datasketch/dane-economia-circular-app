@@ -183,6 +183,10 @@ mod_load_viz_server <- function(id, r){
       if (r$active_viz != "table") return()
       req(r$d_fil)
       df <- r$d_fil %>% dplyr::select(-label)
+      req(r$dic_var)
+      varNum <- unique(r$dic_var$variables_cantidad)
+      df[[grep(varNum, names(df))]] <- format(round(df[[grep(varNum, names(df))]], unique(r$dic_var$num_dic)[1]),  decimal.mark = ",", big.mark  = ".")
+      
       #df[[grep("Valor", names(df))]] <- format(df[[grep("Valor", names(df))]],  decimal.mark = ",", big.mark  = ".")
 
       dtable <- DT::datatable(df,
@@ -211,7 +215,7 @@ mod_load_viz_server <- function(id, r){
     output$viz_print <- renderUI({
       if (is.null(r$active_viz)) return()
       if (r$active_viz == "table") {
-        DT::dataTableOutput(ns("table_dt"), width = 700)
+        DT::dataTableOutput(ns("table_dt"), width = 900)
       } else if (r$active_viz == "map") {
         leaflet::leafletOutput(ns("viz_lflt"), height = 650)
       } else {
