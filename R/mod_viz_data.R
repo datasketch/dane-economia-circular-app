@@ -27,7 +27,10 @@ mod_viz_data_server <- function(id, r){
         req(r$d_fil)
         req(r$dic_var)
         df <- r$d_fil
-      
+        varNum <- unique(r$dic_var$variables_cantidad)
+        df[[grep(varNum, names(df))]] <- round(df[[grep(varNum, names(df))]], unique(r$dic_var$num_dic)[1])
+        
+        
         if (ncol(df) > 3) {
           if ("Año" %in% names(df)) {
             df <- EcotoneFinder::arrange.vars(df, vars =c("Año" = 2))
@@ -39,7 +42,7 @@ mod_viz_data_server <- function(id, r){
         
         if (!is.null(r$varToVizId)) {
           if (all(r$varToVizId %in% names(df))) {
-            varNum <- unique(r$dic_var$variables_cantidad)
+            
             df <- df[,c(r$varToVizId, varNum, "label")]
             if ("Año" %in% r$varToVizId) {
               if (length(r$varToVizId) != 1) {
