@@ -81,7 +81,7 @@ mod_load_viz_server <- function(id, r){
         }
         dataLabels_inside <- TRUE
       }
-      print(df$label)
+     
       opts_viz <- list(
         data = df,
         palette_colors = c("#22776A", "#43A292", "#0B5D78", "#2A819C", "#84CDE4", "#A7A6A6", "#575756"),
@@ -148,8 +148,6 @@ mod_load_viz_server <- function(id, r){
     })
 
     r_viz <- reactive({
-      #print("Esto es un ej")
-      print(r$v_type)
       tryCatch({
         if (is.null(r$active_viz)) return()
         if (is.null(r$v_type)) return()
