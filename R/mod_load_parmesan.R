@@ -73,8 +73,12 @@ mod_load_parmesan_server <- function(id, r){
           nameLabel <- df$variables[i]
           sel_var <- NULL
           choices_var <- setdiff(unique(r$d_sel[[df$variables[i]]]), NA)
+          print(varToViz())
           if (!is.null(varToViz())) {
-            varV <- setdiff(varToViz(), c("Trimestre", "Departamento"))
+            varV <- setdiff(varToViz(), c("Trimestre", "Departamento", "Año", r$varToVizId))
+            print("%%%%%%%%%%%%%%%")
+            print(varV)
+            print("%%%%%%%%%%%%%%%")
             if (!identical(varV, character())) {
               if (nameLabel %in% varV) {
               sel_var <- choices_var[1]
