@@ -3,6 +3,7 @@ library(tidyverse)
 
 gs4_deauth()
 indiceDane <- read_sheet("https://docs.google.com/spreadsheets/d/1S-4cYxqXxcU3vPDzGHTkfueBQUQEXlYqHL7gp9Pyl9Y/edit?usp=sharing", sheet = "indice")
+indiceDane <- indiceDane %>% filter(ocultar == "NO")
 indiceDane <- indiceDane %>% group_by(`Nombre hoja`)%>% mutate(idIndicador = cur_group_id())
 indiceDane$idIndicador <- paste0(indiceDane$id, indiceDane$idIndicador)
 indiceDane <- indiceDane %>% rename("num_dic" = `Número de decimales en el índice`)
