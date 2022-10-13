@@ -109,13 +109,17 @@ mod_load_viz_server <- function(id, r){
         legend_verticalAlign = "top",
         legend_maxHeight = 100,
         marker_radius = 3,
+        caption_align = "left",
+        caption_size = 11,
         dataLabels_size = 10,
         dataLabels_show = TRUE,
         dataLabels_inside = dataLabels_inside,
         #dataLabels_align = "bottom",
         spline = T,
         #sort = "desc", ##dbd9d9 grid color
-        grid_x_width = 0
+        grid_x_width = 0,
+        plot_margin_bottom = 180#,
+        #plot_margin_top = 50
 
       )
 
@@ -155,7 +159,7 @@ mod_load_viz_server <- function(id, r){
         suppressWarnings(
           do.call(eval(parse(text=r$v_type)),
                   viz_opts()
-          )
+          ) 
         )
       },
       error = function(cond) {
