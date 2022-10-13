@@ -14,6 +14,7 @@ label_df <- function(valor, num_dec, df) {
   if (!identical(grep(valor, names(df)), integer())) {
     df[[grep(valor, names(df))]] <- as.numeric(df[[grep(valor, names(df))]])
     df$formatNum <- paste0(format(round(df[[grep(valor, names(df))]], num_dec), nsmall = num_dec,  decimal.mark = ",", big.mark  = "."), " ",df[[grep("unidad", tolower(names(df)))]])
+    df$formatNum <- gsub("\\(%\\)", "<span>&#40;</span>%<span>&#41;</span>", df$formatNum)
     varTool <- names(df)[(-grep(paste0(c("Unidad", valor), collapse = "|"), names(df)))]
     df$label <- purrr::map(1:nrow(df), function(i) {
       purrr::map(varTool, function(j){
