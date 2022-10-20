@@ -36,7 +36,7 @@ mod_load_parmesan_server <- function(id, r){
       req(dicFilter())
       dic <- dicFilter()
       if (length(unique(dic$variables)) > 2 | "Departamento" %in% dic$variables) {
-        unique(dic$variables)
+        sort(unique(dic$variables))
       } else {
         return()
       }
@@ -44,7 +44,7 @@ mod_load_parmesan_server <- function(id, r){
     
     varTo_opts <- reactive({
       req(varToViz())
-      varToViz()[1:2]
+      varToViz()[c(3,2)]
     })
     
     
