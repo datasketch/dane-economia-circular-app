@@ -2,8 +2,8 @@ name: update-data
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: '0 1 * * *'
+  schedule:
+    - cron: '0 1 * * 1-5'
 
 jobs:
   build_and_deploy:
@@ -28,24 +28,24 @@ jobs:
           git add --all
           git commit -am "update data" || echo "No changes to commit" 
           git push || echo "No changes to commit"
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2 # More information on this action can be found below in the 'AWS Credentials' section
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - name: Login to Amazon ECR Public
-        id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          registry-type: public
-      - name: Build, tag, and push docker image to Amazon ECR Public
-        env:
-          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-          REGISTRY_ALIAS: v5e0d4y9
-          REPOSITORY: dane-economia-circular
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v2 # More information on this action can be found below in the 'AWS Credentials' section
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
+      # - name: Login to Amazon ECR Public
+      #   id: login-ecr-public
+      #   uses: aws-actions/amazon-ecr-login@v1
+      #   with:
+      #     registry-type: public
+      # - name: Build, tag, and push docker image to Amazon ECR Public
+      #   env:
+      #     REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+      #     REGISTRY_ALIAS: v5e0d4y9
+      #     REPOSITORY: dane-economia-circular
+      #     IMAGE_TAG: ${{ github.sha }}
+      #   run: |
+      #     docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
+      #     docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
           
